@@ -53,7 +53,7 @@ const ParkPanel = () => {
   return (
     <div>
       {parks && parks.map((park, i) => { return (<div key={i}>{park.data().name}</div>) })}
-      new park
+      Add New Park
       <form onSubmit={addPark}>
         <input onChange={newParkNameChange} value={newParkName}></input>
         <input type="submit" />
