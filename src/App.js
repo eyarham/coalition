@@ -3,7 +3,6 @@ import './App.css';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 import ParkPanel from './ParkPanel';
-import FirebaseApp from './FirebaseApp';
 
 function App() {
   return (
@@ -20,9 +19,7 @@ function App() {
         </a>
       </header>
       <body>
-        <FirebaseApp>
           <ParkPanel />
-          </FirebaseApp>
       </body>
     </div>
   );
