@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getByCoalition } from '../invite/api';
+import NewPetition from '../petition/NewPetition';
+import Petitions from '../petition/Petitions';
 import { getMemberCount, remove } from '../_common/membershipApi';
 import { setCoalition } from './api';
 
@@ -100,6 +102,8 @@ const Coalition = ({ selectedCoalition }) => {
       <div>
         <textarea disabled value={inviteLink} className='inviteLinkBox'></textarea>
       </div>
+      <NewPetition coalitionId={openCoalition.id} />
+      <Petitions coalitionId={openCoalition.id} />
       <div>
         <input type="button" onClick={onClickLeave} value={"Leave " + openCoalition.data().name}></input>
         {showConfirm && <div>click again to confirm</div>}
