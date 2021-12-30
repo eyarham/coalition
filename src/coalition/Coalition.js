@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from "react-router-dom";
 import { getByCoalition } from '../invite/api';
 import { getMemberCount, remove } from '../_common/membershipApi';
-import { getById, setCoalition } from './api';
+import { setCoalition } from './api';
 
 const Coalition = ({ selectedCoalition }) => {
-  let params = useParams();
   // const [inviteEmail, setInviteEmail] = useState();
   // const [inviteSuccessful, setInviteSuccessful] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -35,21 +33,10 @@ const Coalition = ({ selectedCoalition }) => {
     setCharterText(coalition.data().charter)
   }
   useEffect(() => {
-    const setFromParams = async () => {
-      const getCoalition = async () => await getById(params.coalitionId);
-      const coalition = getCoalition();
-      setActiveCoalition(coalition);
-    }
-    const setFromProps = async () => {
-      setActiveCoalition(selectedCoalition);
-    }
-    if (params.coalitionId) {
-      setFromParams();
-    }
-    else {
-      setFromProps();
-    }
-  }, [params, selectedCoalition])
+    const setFromProps = async () => setActiveCoalition(selectedCoalition);
+    setFromProps();
+
+  }, [selectedCoalition])
   useEffect(() => {
     const getInviteLink = async () => {
       const baseUrl = "http://localhost:3000/";
