@@ -15,7 +15,7 @@ const api = (collectionString) => {
     const db = getFirestore();
     return collection(db, collectionString);
   }
-  return {getCurrentUser, getDocRef, getCollection};
+  return { getCurrentUser, getDocRef, getCollection };
 }
 
 export default api;
