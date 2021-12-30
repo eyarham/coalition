@@ -1,10 +1,9 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import React, { useState } from 'react';
-import LoggedIn from './LoggedIn';
-import LoginPanel from './LogInPanel';
+import AuthPanel from './AuthPanel';
 
-function AuthPanel() {
-const auth = getAuth();
+const AuthWrapper = (props) => {
+  const auth = getAuth();
   const [loggedInUser, setLoggedInUser] = useState();
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -19,18 +18,17 @@ const auth = getAuth();
       setLoggedInUser(null);
     }
   });
-
   return (
     <div>
-      {loggedInUser &&
-        <LoggedIn />
-      }
-      {(!loggedInUser) &&
-        <LoginPanel />
-      }
-
+      <div>
+        <AuthPanel />
+      </div>
+      <hr />
+      <div>
+        {loggedInUser && props.children}
+      </div>
     </div>
   )
 }
 
-export default AuthPanel
+export default AuthWrapper

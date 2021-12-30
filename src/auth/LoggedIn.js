@@ -1,10 +1,8 @@
-import React from 'react'
-import { useState } from 'react';
-import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
-
-const auth = getAuth();
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import React, { useState } from 'react';
 
 function LoggedIn() {
+const auth = getAuth();
   const [loggedInUser, setLoggedInUser] = useState();
   onAuthStateChanged(auth, (user) => {
     if (user) {

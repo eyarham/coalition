@@ -1,10 +1,8 @@
-import React from 'react'
-import { useState } from 'react';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-
-const auth = getAuth();
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import React, { useState } from 'react';
 
 function LoginPanel() {
+  const auth = getAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loggedInUser, setLoggedInUser] = useState();
@@ -63,10 +61,12 @@ function LoginPanel() {
         <div>{loggedInUser.email}</div>
       }
       {(!loggedInUser) && "no user"}
-      <input placeholder="email" onChange={changeEmail}></input>
-      <input type="password" placeholder="password" onChange={changePassword}></input>
-      <input type="button" onClick={signIn} value="Sign In"></input>
-      <input type="button" onClick={createAccount} value="Create New User"></input>
+      <form>
+        <input placeholder="email" onChange={changeEmail}></input>
+        <input type="password" placeholder="password" onChange={changePassword}></input>
+        <input type="button" onClick={signIn} value="Sign In"></input>
+        <input type="button" onClick={createAccount} value="Create New User"></input>
+      </form>
       <div>{loginErrorMessage}</div>
     </div>
   )
