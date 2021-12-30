@@ -1,8 +1,7 @@
-import { addDoc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { addDoc, getDocs, query, where } from "firebase/firestore";
 import api from "../_common/api";
-import { add } from '../_common/membershipApi';
 
-const { getCurrentUser, getDocRef, getCollection } = api("petitions");
+const { getCurrentUser,  getCollection } = api("petitions");
 
 const create = async (coalitionId, title, body) => {
   const newPetition = {
@@ -11,7 +10,7 @@ const create = async (coalitionId, title, body) => {
     title,
     body
   }
-  const docRef = await addDoc(getCollection(), newPetition);
+  await addDoc(getCollection(), newPetition);
 
 }
 
@@ -21,4 +20,4 @@ const getByCoalitionId =async coalitionId =>{
   return membershipQuerySnapshot.docs;
 }
 
-export { create, getByCoalitionId }
+export { create, getByCoalitionId };
