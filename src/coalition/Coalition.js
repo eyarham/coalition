@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import { getByCoalition } from '../invite/api';
-import { remove, getMemberCount } from '../_common/membershipApi';
+import { getMemberCount, remove } from '../_common/membershipApi';
 import { getById, setCoalition } from './api';
 
 const Coalition = ({ selectedCoalition }) => {
   let params = useParams();
-  const [inviteEmail, setInviteEmail] = useState();
-  const [inviteSuccessful, setInviteSuccessful] = useState(false);
+  // const [inviteEmail, setInviteEmail] = useState();
+  // const [inviteSuccessful, setInviteSuccessful] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const [openCoalition, setOpenCoalition] = useState(false);
@@ -17,16 +17,16 @@ const Coalition = ({ selectedCoalition }) => {
   const [inviteLink, setInviteLink] = useState("http://localhost:3000/");
 
 
-  const onChangeInviteEmail = e => {
-    setInviteEmail(e.target.value);
-    setInviteSuccessful(false);
-  }
-  const onInviteSubmit = e => {
-    e.preventDefault();
-    //sendInvite(inviteEmail);
-    setInviteSuccessful(true);
-    setInviteEmail("");
-  }
+  // const onChangeInviteEmail = e => {
+  //   setInviteEmail(e.target.value);
+  //   setInviteSuccessful(false);
+  // }
+  // const onInviteSubmit = e => {
+  //   e.preventDefault();
+  //   //sendInvite(inviteEmail);
+  //   setInviteSuccessful(true);
+  //   setInviteEmail("");
+  // }
   const setActiveCoalition = async (coalition) => {
     setOpenCoalition(coalition);
     const memberCountFunc = async () => await getMemberCount(coalition.id);

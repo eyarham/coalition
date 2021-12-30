@@ -1,8 +1,7 @@
-import { getAuth } from "firebase/auth";
-import { collection, getDocs, getFirestore, query, where, addDoc, deleteDoc, doc } from "firebase/firestore";
+import { addDoc, deleteDoc, getDocs, query, where } from "firebase/firestore";
 import api from "./api";
 
-const {getCurrentUser, getDocRef, getCollection} = api("memberships");
+const { getCurrentUser, getDocRef, getCollection } = api("memberships");
 const add = async (coalitionId, memberId) => {
 
   var newMembership = {
