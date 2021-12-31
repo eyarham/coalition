@@ -41,7 +41,8 @@ const Coalition = ({ selectedCoalition }) => {
   }, [selectedCoalition])
   useEffect(() => {
     const getInviteLink = async () => {
-      const baseUrl = "http://localhost:3000/";
+      //const baseUrl = "http://localhost:3000/";
+      const baseUrl = window.location.href;
       const inviteUrl = "invite";
       const invite = await getByCoalition(openCoalition.id);
       const inviteId = invite.id;
