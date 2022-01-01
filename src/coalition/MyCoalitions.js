@@ -9,7 +9,6 @@ const MyCoalitions = ({ isDirty, setIsDirty, setSelectedCoalition }) => {
   }
   // Merge of componentDidMount and componentDidUpdate
   useEffect(() => {
-
     isDirty && getCoalitionData();
     isDirty && setIsDirty(false);
     console.log("This is mounted or updated.");

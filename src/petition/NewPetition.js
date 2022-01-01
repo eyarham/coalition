@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { getById, setCoalition } from '../coalition/api';
 import { create } from './api';
 
 const NewPetition = ({ coalitionId }) => {
@@ -6,7 +7,7 @@ const NewPetition = ({ coalitionId }) => {
   const [body, setBody] = useState("");
   const [message, setMessage] = useState("");
   const [petitionType, setPetitionType] = useState("");
-  const [charterText, setCharterText] = useState()
+  const [charterText, setCharterText] = useState();
 
   const onChangeTitle = e => {
     setTitle(e.target.value);
@@ -16,14 +17,22 @@ const NewPetition = ({ coalitionId }) => {
   }
   const onPetitionSubmit = async e => {
     e.preventDefault();
-    await create(coalitionId, title, body);
+    if (petitionType === "0") {
+      await create(coalitionId, title, body);
+    }
+    else if (petitionType === "1") {
+      const openCoalition = await getById(coalitionId);
+      const coalitionToUpdate = { ...openCoalition.data(), charter: charterText }
+      await setCoalition(openCoalition.id, coalitionToUpdate);
+
+    }
     setMessage("Created Successfully");
   }
   const onPetitionTypeChange = e => {
     setPetitionType(e.target.value);
 
   }
-  const onChangeCharterText = e=>{
+  const onChangeCharterText = e => {
     setCharterText(e.target.value);
   }
   return (
@@ -38,9 +47,9 @@ const NewPetition = ({ coalitionId }) => {
           <input onChange={onChangeBody} placeholder='body'></input>
         </div>
       )}
-      {petitionType ==="1" && (
+      {petitionType === "1" && (
         <div>
-          <input onChange={onChangeCharterText} placeholder='charter text'></input>          
+          <input onChange={onChangeCharterText} placeholder='charter text'></input>
         </div>
       )}
       <div><input type="submit" value="submit petition"></input></div>
