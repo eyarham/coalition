@@ -66,8 +66,8 @@ const getById = async (id) => {
 }
 
 const getCoalitionLink = (coalitionId) => {
-  const baseUrl = window.location.href;
-  const coalitionUrl = "#/coalition/";
+  const baseUrl = window.location.origin;
+  const coalitionUrl = "/#/coalition/";
   const link = baseUrl + coalitionUrl + coalitionId;
   return link;
 }
