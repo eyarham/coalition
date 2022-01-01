@@ -43,7 +43,7 @@ const Coalition = ({ selectedCoalition }) => {
     const getInviteLink = async () => {
       //const baseUrl = "http://localhost:3000/";
       const baseUrl = window.location.href;
-      const inviteUrl = "invite";
+      const inviteUrl = "#/invite";
       const invite = await getByCoalition(openCoalition.id);
       const inviteId = invite.id;
       const query = "?id=" + inviteId;
