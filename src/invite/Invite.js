@@ -22,7 +22,7 @@ const Invite = () => {
       if (userCoalitionIds.indexOf(coalition.id) > -1) {
         setUserIsMember(true)
       }
-        setCoalition(coalition.data());
+      setCoalition(coalition.data());
     }
     getData();
   }, [searchParams])
@@ -32,11 +32,16 @@ const Invite = () => {
   }
 
   if (!coalition) return <div>Loading...</div>
-  if(userIsMember) return <div>You are a member of {coalition.name} </div>
+  if (userIsMember) return <div>You are a member of {coalition.name} </div>
   return (
     <div>
       <div>
         You've been invited to join {coalition.name}
+      </div>
+      <div>
+        <h2>Charter:</h2>
+        <p>{coalition.charter}</p>
+        
       </div>
       <input type="button" onClick={onAcceptClick} value="Accept"></input>
     </div>

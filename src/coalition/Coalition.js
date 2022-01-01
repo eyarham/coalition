@@ -3,6 +3,7 @@ import { getByCoalition } from '../invite/api';
 import NewPetition from '../petition/NewPetition';
 import Petitions from '../petition/Petitions';
 import { getMemberCount, remove } from '../_common/membershipApi';
+import { getCoalitionLink } from './api';
 
 const Coalition = ({ selectedCoalition }) => {
   const [showConfirm, setShowConfirm] = useState(false);
@@ -51,13 +52,19 @@ const Coalition = ({ selectedCoalition }) => {
     }
 
   }
-
+  // const getCoalitionLink = () => {
+  //   const baseUrl = window.location.href;
+  //   const coalitionUrl = "#/coalition/";
+  //   const link = baseUrl + coalitionUrl + openCoalition.id;
+  //   return link;
+  // }
   if (!openCoalition) return <div>Loading</div>;
   return (
     <div>
       Selected Coalition
       <hr />
       <div>Name: {openCoalition.data().name}</div>
+      <a href={getCoalitionLink(openCoalition.id)}>Coalition Link</a>
       <div>Members: {memberCount}</div>
       <div>
         <div>Charter:</div>

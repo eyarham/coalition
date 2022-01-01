@@ -1,4 +1,4 @@
-import { addDoc, getDoc, getDocs, query, where , setDoc} from "firebase/firestore";
+import { addDoc, getDoc, getDocs, query, setDoc, where } from "firebase/firestore";
 import api from "../_common/api";
 import { add, getCoalitionIdsForCurrentUser } from "../_common/membershipApi";
 
@@ -18,8 +18,8 @@ const write = async (name) => {
   }
 }
 
-const setCoalition = async (id, data)=>{
- await setDoc(getDocRef(id), data);
+const setCoalition = async (id, data) => {
+  await setDoc(getDocRef(id), data);
   return await getById(id);
 }
 const get = async () => {
@@ -65,5 +65,12 @@ const getById = async (id) => {
   return coalition;
 }
 
-export { write, get, getAll, getById,setCoalition };
+const getCoalitionLink = (coalitionId) => {
+  const baseUrl = window.location.href;
+  const coalitionUrl = "#/coalition/";
+  const link = baseUrl + coalitionUrl + coalitionId;
+  return link;
+}
+
+export { write, get, getAll, getById, setCoalition, getCoalitionLink };
 

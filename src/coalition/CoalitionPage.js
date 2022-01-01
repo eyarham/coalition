@@ -9,12 +9,12 @@ const CoalitionPage = () => {
  
   useEffect(() => {
     const setFromParams = async () => {
-      const getCoalition = async () => await getById(params.coalitionId);
-      const coalition = getCoalition();
+      const coalition = await getById(params.coalitionId);     
       setSelectedCoalition(coalition);
     }
     setFromParams();
   }, [params.coalitionId])
+  if(!selectedCoalition) return <div>Loading...</div>;
   return (
     <Coalition selectedCoalition={selectedCoalition} />  
   )
