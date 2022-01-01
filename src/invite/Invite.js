@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from "react-router-dom";
-import { getById as getCoalition } from '../coalition/api';
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { getById as getCoalition, getCoalitionLink, getCoalitionRedirect } from '../coalition/api';
 import { getCoalitionIdsForCurrentUser } from '../_common/membershipApi';
 import { accept, get } from './api';
 
 const Invite = () => {
   let [searchParams] = useSearchParams();
+  let navigate = useNavigate();
   const [coalition, setCoalition] = useState();
+  const [coalitionData, setCoalitionData] = useState();
   const [inviteId, setInviteId] = useState();
   const [userIsMember, setUserIsMember] = useState(false);
   console.log(searchParams);
@@ -16,32 +18,34 @@ const Invite = () => {
       let inviteId = searchParams.get("id");
       setInviteId(inviteId);
       var invite = await get(inviteId);
-      var coalition = await getCoalition(invite.data().coalitionId);
+      var inviteCoalition = await getCoalition(invite.data().coalitionId);
       //check membership
       var userCoalitionIds = await getCoalitionIdsForCurrentUser();
-      if (userCoalitionIds.indexOf(coalition.id) > -1) {
+      if (userCoalitionIds.indexOf(inviteCoalition.id) > -1) {
         setUserIsMember(true)
       }
-      setCoalition(coalition.data());
+      setCoalition(inviteCoalition);
+      setCoalitionData(inviteCoalition.data());
     }
     getData();
   }, [searchParams])
   const onAcceptClick = async e => {
     e.preventDefault();
-    await accept(inviteId)
+    await accept(inviteId);
+    navigate(getCoalitionRedirect(coalition.id));
   }
 
-  if (!coalition) return <div>Loading...</div>
-  if (userIsMember) return <div>You are a member of {coalition.name} </div>
+  if (!coalitionData) return <div>Loading...</div>
+  if (userIsMember) return <div>You are a member of {coalitionData.name} </div>
   return (
     <div>
       <div>
-        You've been invited to join {coalition.name}
+        You've been invited to join {coalitionData.name}
       </div>
       <div>
         <h2>Charter:</h2>
-        <p>{coalition.charter}</p>
-        
+        <p>{coalitionData.charter}</p>
+
       </div>
       <input type="button" onClick={onAcceptClick} value="Accept"></input>
     </div>

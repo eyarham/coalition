@@ -71,6 +71,11 @@ const getCoalitionLink = (coalitionId) => {
   const link = baseUrl + coalitionUrl + coalitionId;
   return link;
 }
+const getCoalitionRedirect = (coalitionId) => {
+  const coalitionUrl = "/coalition/";
+  const link = coalitionUrl + coalitionId;
+  return link;
+}
 
-export { write, get, getAll, getById, setCoalition, getCoalitionLink };
+export { write, get, getAll, getById, setCoalition, getCoalitionLink, getCoalitionRedirect };
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getByCoalition } from '../invite/api';
+import { useNavigate, useSearchParams } from "react-router-dom";
 import NewPetition from '../petition/NewPetition';
 import Petitions from '../petition/Petitions';
 import { getMemberCount, remove } from '../_common/membershipApi';
@@ -12,7 +13,7 @@ const Coalition = ({ selectedCoalition }) => {
   const [charterText, setCharterText] = useState(false);
   const [memberCount, setMemberCount] = useState();
   const [inviteLink, setInviteLink] = useState("http://localhost:3000/");
-
+const navigate = useNavigate();
   const setActiveCoalition = async (coalition) => {
     setOpenCoalition(coalition);
     const memberCountFunc = async () => await getMemberCount(coalition.id);
@@ -27,8 +28,8 @@ const Coalition = ({ selectedCoalition }) => {
   }, [selectedCoalition])
   useEffect(() => {
     const getInviteLink = async () => {
-      const baseUrl = window.location.href;
-      const inviteUrl = "#/invite";
+      const baseUrl = window.location.origin;
+      const inviteUrl = "/#/invite";
       const invite = await getByCoalition(openCoalition.id);
       const inviteId = invite.id;
       const query = "?id=" + inviteId;
@@ -45,6 +46,7 @@ const Coalition = ({ selectedCoalition }) => {
     else {
       try {
         await remove(openCoalition.id);
+        navigate("/");
       }
       catch (e) {
         setErrorMessage(e.message);
@@ -52,12 +54,6 @@ const Coalition = ({ selectedCoalition }) => {
     }
 
   }
-  // const getCoalitionLink = () => {
-  //   const baseUrl = window.location.href;
-  //   const coalitionUrl = "#/coalition/";
-  //   const link = baseUrl + coalitionUrl + openCoalition.id;
-  //   return link;
-  // }
   if (!openCoalition) return <div>Loading</div>;
   return (
     <div>
