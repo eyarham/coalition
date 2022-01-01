@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import { getByCoalition } from '../invite/api';
-import { useNavigate, useSearchParams } from "react-router-dom";
 import NewPetition from '../petition/NewPetition';
 import Petitions from '../petition/Petitions';
 import { getMemberCount, remove } from '../_common/membershipApi';
@@ -13,7 +13,7 @@ const Coalition = ({ selectedCoalition }) => {
   const [charterText, setCharterText] = useState(false);
   const [memberCount, setMemberCount] = useState();
   const [inviteLink, setInviteLink] = useState("http://localhost:3000/");
-const navigate = useNavigate();
+  const navigate = useNavigate();
   const setActiveCoalition = async (coalition) => {
     setOpenCoalition(coalition);
     const memberCountFunc = async () => await getMemberCount(coalition.id);
