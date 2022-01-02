@@ -20,11 +20,20 @@ const api = (collectionString) => {
     return await getDoc(docRef);
   }
 
-  const set =async (id, data)=>{
+  const set = async (id, data) => {
     await setDoc(getDocRef(id), data);
     return await getById(id);
   }
+
   return { getCurrentUser, getDocRef, getCollection, getById, set };
 }
-
 export default api;
+
+const getOriginUrl = () => {
+  const baseUrl = window.location.origin;
+  if (baseUrl === "https://eyarham.github.io") {
+    return baseUrl + "/coalition";
+  }
+  return baseUrl;
+}
+export { getOriginUrl };

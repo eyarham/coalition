@@ -12,10 +12,15 @@ const Petitions = ({ coalitionId }) => {
     }
     getFunc()
   }, [coalitionId])
+
+  const petitionsToShow = (petitions)=>{
+    return petitions.filter(p=>p.data().status === "new");
+  }
+
   return (
     <div>
       {petitions && <h2>Petitions</h2>}
-      {petitions && (petitions.map((petition,i) => {
+      {petitions && (petitionsToShow(petitions).map((petition,i) => {
         const data = petition.data();        
         return (<div key={i} className='petition-block'>
           {data.petitionType === "0" && <div>Title: {data.title}</div>}

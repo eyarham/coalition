@@ -1,5 +1,5 @@
 import { addDoc, getDoc, getDocs, query, where } from "firebase/firestore";
-import api from "../_common/api";
+import api, { getOriginUrl } from "../_common/api";
 import { add } from '../_common/membershipApi';
 
 const { getCurrentUser, getDocRef, getCollection } = api("invites");
@@ -44,6 +44,15 @@ const accept = async (inviteId) => {
 
 }
 
+const getLink = async (coalitionId) => {
+  const baseUrl = getOriginUrl();
+  const inviteUrl = "/#/invite";
+  const invite = await getByCoalition(coalitionId);
+  const inviteId = invite.id;
+  const query = "?id=" + inviteId;
+  const inviteLink = baseUrl + inviteUrl + query;
+  return inviteLink;
+}
 
-export { sendInvite, get, create, accept, getByCoalition };
+export { sendInvite, get, create, accept, getByCoalition, getLink };
 

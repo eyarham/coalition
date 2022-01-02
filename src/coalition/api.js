@@ -1,5 +1,5 @@
 import { addDoc, getDoc, getDocs, query, setDoc, where } from "firebase/firestore";
-import api from "../_common/api";
+import api, { getOriginUrl } from "../_common/api";
 import { add, getCoalitionIdsForCurrentUser, getMemberCount } from "../_common/membershipApi";
 
 
@@ -65,10 +65,10 @@ const getById = async (id) => {
   return coalition;
 }
 
+
 const getCoalitionLink = (coalitionId) => {
-  const baseUrl = window.location.origin;
   const coalitionUrl = "/#/coalition/";
-  const link = baseUrl + coalitionUrl + coalitionId;
+  const link = getOriginUrl() + coalitionUrl + coalitionId;
   return link;
 }
 const getCoalitionRedirect = (coalitionId) => {

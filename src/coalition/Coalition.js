@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { getByCoalition } from '../invite/api';
+import { getLink } from '../invite/api';
 import NewPetition from '../petition/NewPetition';
 import Petitions from '../petition/Petitions';
 import { getMemberCount, remove } from '../_common/membershipApi';
@@ -28,13 +28,7 @@ const Coalition = ({ selectedCoalition }) => {
   }, [selectedCoalition])
   useEffect(() => {
     const getInviteLink = async () => {
-      const baseUrl = window.location.origin;
-      const inviteUrl = "/#/invite";
-      const invite = await getByCoalition(openCoalition.id);
-      const inviteId = invite.id;
-      const query = "?id=" + inviteId;
-      const inviteLink = baseUrl + inviteUrl + query;
-      setInviteLink(inviteLink);
+      setInviteLink(await getLink(openCoalition.id));
     }
     if (openCoalition && openCoalition.id)
       getInviteLink();
