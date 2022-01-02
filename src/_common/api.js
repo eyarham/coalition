@@ -1,5 +1,5 @@
 import { getAuth } from "firebase/auth";
-import { collection, doc, getFirestore } from "firebase/firestore";
+import { collection, doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 
 const api = (collectionString) => {
 
@@ -15,7 +15,16 @@ const api = (collectionString) => {
     const db = getFirestore();
     return collection(db, collectionString);
   }
-  return { getCurrentUser, getDocRef, getCollection };
+  const getById = async id => {
+    const docRef = getDocRef(id);
+    return await getDoc(docRef);
+  }
+
+  const set =async (id, data)=>{
+    await setDoc(getDocRef(id), data);
+    return await getById(id);
+  }
+  return { getCurrentUser, getDocRef, getCollection, getById, set };
 }
 
 export default api;

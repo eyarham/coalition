@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import Vote from '../vote/Vote'
 import { getByCoalitionId } from './api'
 import './petition.css'
 
@@ -14,11 +15,13 @@ const Petitions = ({ coalitionId }) => {
   return (
     <div>
       {petitions && <h2>Petitions</h2>}
-      {petitions &&  (petitions.map(petition => {
-        const data = petition.data();
-        return (<div className='petition-block'>
-          <div>Title: {data.title}</div>
-          <div>Body: {data.body}</div>
+      {petitions && (petitions.map((petition,i) => {
+        const data = petition.data();        
+        return (<div key={i} className='petition-block'>
+          {data.petitionType === "0" && <div>Title: {data.title}</div>}
+          {data.petitionType === "0" && <div>Body: {data.body}</div>}
+          {data.petitionType === "1" && <div>Text: {data.charterText}</div>}
+          <Vote petitionId={petition.id} ></Vote>
         </div>)
       }))}
     </div>

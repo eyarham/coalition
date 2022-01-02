@@ -1,6 +1,6 @@
 import { addDoc, getDoc, getDocs, query, setDoc, where } from "firebase/firestore";
 import api from "../_common/api";
-import { add, getCoalitionIdsForCurrentUser } from "../_common/membershipApi";
+import { add, getCoalitionIdsForCurrentUser, getMemberCount } from "../_common/membershipApi";
 
 
 const { getCurrentUser, getDocRef, getCollection } = api("coalitions");
@@ -76,6 +76,20 @@ const getCoalitionRedirect = (coalitionId) => {
   const link = coalitionUrl + coalitionId;
   return link;
 }
+const votesNeededRule = x => {
+  if (x < 4) {
+    return x
+  }
+  else {
+    return x / 2;
+  }
+}
+const getVotesNeeded = async (coalitionId) => {
+  //const coalition = await getById(coalitionId);
+  const memberCount = await getMemberCount(coalitionId);
+  const votesNeeded = votesNeededRule(memberCount);
+  return votesNeeded;
+}
 
-export { write, get, getAll, getById, setCoalition, getCoalitionLink, getCoalitionRedirect };
+export { write, get, getAll, getById, setCoalition, getCoalitionLink, getCoalitionRedirect, getVotesNeeded };
 

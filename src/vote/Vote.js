@@ -1,14 +1,17 @@
 import React from 'react';
+import { checkVotes } from '../petition/api';
 import { submitVote } from './api';
 
 const Vote = ({ petitionId }) => {
   const onVoteYes = async e => {
     e.preventDefault();
-    await submitVote(petitionId, "yes")
+    await submitVote(petitionId, "yes");
+    await checkVotes(petitionId);
   }
   const onVoteNo = async e => {
     e.preventDefault();
-    await submitVote(petitionId, "yes")
+    await submitVote(petitionId, "no");
+    await checkVotes(petitionId);
   }
   return (
     <div>
