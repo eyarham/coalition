@@ -1,18 +1,19 @@
 import { addDoc, getDoc, getDocs, query, setDoc, where } from "firebase/firestore";
 import api, { getOriginUrl } from "../_common/api";
-import { add, getCoalitionIdsForCurrentUser, getMemberCount } from "../_common/membershipApi";
+import { add as addMember, getCoalitionIdsForCurrentUser, getMemberCount } from "../_common/membershipApi";
 
 
-const { getCurrentUser, getDocRef, getCollection } = api("coalitions");
+const { getCurrentUser, getDocRef, getCollection, deleteDocument } = api("coalitions");
 
 const write = async (name) => {
   try {
     var newCoalition = {
-      name
+      name,
+      createdBy: getCurrentUser().uid
     }
     const docRef = await addDoc(getCollection(), newCoalition);
     console.log("Document written with ID: ", docRef.id);
-    await add(docRef.id, getCurrentUser().uid);
+    await addMember(docRef.id, getCurrentUser().uid);
   } catch (e) {
     console.error("Error adding document: ", e);
   }
@@ -91,5 +92,5 @@ const getVotesNeeded = async (coalitionId) => {
   return votesNeeded;
 }
 
-export { write, get, getAll, getById, setCoalition, getCoalitionLink, getCoalitionRedirect, getVotesNeeded };
+export { write, get, getAll, getById, setCoalition, getCoalitionLink, getCoalitionRedirect, getVotesNeeded, deleteDocument };
 

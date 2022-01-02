@@ -3,14 +3,16 @@ import { useNavigate } from "react-router-dom";
 import { getLink } from '../invite/api';
 import NewPetition from '../petition/NewPetition';
 import Petitions from '../petition/Petitions';
+import api from '../_common/api';
 import { getMemberCount, remove } from '../_common/membershipApi';
-import { getCoalitionLink } from './api';
+import { deleteDocument, getCoalitionLink } from './api';
 
 const Coalition = ({ selectedCoalition }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const [openCoalition, setOpenCoalition] = useState(false);
   const [charterText, setCharterText] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState(false);
   const [memberCount, setMemberCount] = useState();
   const [inviteLink, setInviteLink] = useState("http://localhost:3000/");
   const navigate = useNavigate();
@@ -48,7 +50,17 @@ const Coalition = ({ selectedCoalition }) => {
     }
 
   }
+  const onDeleteClick = e => {
+    e.preventDefault();
+    if (deleteConfirm) {
+      deleteDocument(openCoalition.id)
+      setDeleteConfirm(false);
+    }
+    else setDeleteConfirm(true);
+
+  }
   if (!openCoalition) return <div>Loading</div>;
+  const isCreator = openCoalition && openCoalition.data().createdBy === api().getCurrentUser().uid;
   return (
     <div>
       Selected Coalition
@@ -70,6 +82,18 @@ const Coalition = ({ selectedCoalition }) => {
       <div>
         <input type="button" onClick={onClickLeave} value={"Leave " + openCoalition.data().name}></input>
         {showConfirm && <div>click again to confirm</div>}
+      </div>
+      <div>
+        {isCreator &&
+          <div>Creator things
+            <div>
+              <input type="button" value="Delete Coalition" onClick={onDeleteClick}></input>
+            </div>
+            <div>{deleteConfirm && <div>Delete?</div>}</div>
+
+          </div>
+
+        }
       </div>
       <div>
         {errorMessage}
