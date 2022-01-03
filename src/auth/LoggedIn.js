@@ -1,5 +1,6 @@
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 
 function LoggedIn() {
 const auth = getAuth();
@@ -30,7 +31,7 @@ const auth = getAuth();
       {loggedInUser &&
         <div>{loggedInUser.email}</div>
       }
-      <a href="/Account">Account</a>
+      <Link to="/Account" >Account</Link>
       <input type="button" onClick={signOutEvent} value="Sign Out"></input>
     </div>
   )
