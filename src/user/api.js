@@ -18,7 +18,7 @@ const get = async () => {
 
   const q2 = query(getCollection(), where("userId", "==", user.uid));
   const membershipQuerySnapshot = await getDocs(q2);
-  if(membershipQuerySnapshot.empty) return ;
+  if(membershipQuerySnapshot.empty) return await getDoc(create(user.uid));
   return membershipQuerySnapshot.docs[0];
 }
 export { create, get, set }

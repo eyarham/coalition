@@ -4,12 +4,13 @@ import { get, set } from './api';
 
 const Account = () => {
   const [selectedAccount, setSelectedAccount] = useState();
-  const [updatedDisplayName, setUpdatedDisplayName] = useState();
+  const [updatedDisplayName, setUpdatedDisplayName] = useState('');
   useEffect(() => {
     const effectFunc = async () => {
       const account = await get();
       setSelectedAccount(account);
-      setUpdatedDisplayName(account.data().displayName)
+      const displayName = account.data().displayName
+      setUpdatedDisplayName(displayName);
     }
     effectFunc();
 
