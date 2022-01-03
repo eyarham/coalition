@@ -1,5 +1,6 @@
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from 'react';
+import { create } from "../user/api";
 
 function LoginPanel() {
   const auth = getAuth();
@@ -22,10 +23,11 @@ function LoginPanel() {
   });
   const createAccount = () => {
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         // Signed in 
         // const user = userCredential.user;
         // ...
+        await create(userCredential.user.uid)
       })
       .catch((error) => {
         //const errorCode = error.code;

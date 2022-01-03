@@ -30,6 +30,7 @@ const auth = getAuth();
       {loggedInUser &&
         <div>{loggedInUser.email}</div>
       }
+      <a href="/Account">Account</a>
       <input type="button" onClick={signOutEvent} value="Sign Out"></input>
     </div>
   )

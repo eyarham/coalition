@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import CoalitionPage from '../coalition/CoalitionPage';
 import CoalitionPanel from '../coalition/CoalitionPanel';
 import Invite from '../invite/Invite';
+import Account from '../user/Account';
 import Layout from './Layout';
 
 const Router = () => {
@@ -11,6 +12,7 @@ const Router = () => {
       <Route path="/" element={<Layout />}>
         <Route path="/" element={<CoalitionPanel />} />
         <Route path="/invite" element={<Invite />} />
+        <Route path="/account" element={<Account />} />
         <Route path="/coalition/:coalitionId" element={<CoalitionPage />} />
       </Route>
     </Routes>
