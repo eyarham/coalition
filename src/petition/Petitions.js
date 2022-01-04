@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { getByCoalitionId } from './api'
-import Petition from './Petition'
 import './petition.css'
 import PetitionList from './PetitionList'
 

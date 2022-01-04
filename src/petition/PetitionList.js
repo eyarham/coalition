@@ -1,5 +1,4 @@
-import React from 'react'
-import Vote from '../vote/Vote';
+import React from 'react';
 import Petition from './Petition';
 
 const PetitionList = ({ petitions, showVote }) => {
