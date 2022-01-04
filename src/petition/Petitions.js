@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getByCoalitionId } from './api'
+import Petition from './Petition'
 import './petition.css'
 import PetitionList from './PetitionList'
 
@@ -24,7 +25,6 @@ const Petitions = ({ coalitionId }) => {
       {petitions && openPetitions() && (openPetitions().length > 0) && <h2>Open Petitions</h2>}
       {petitions && <PetitionList petitions={openPetitions()} showVote={true} />}
       {petitions && passedPetitions() && (passedPetitions().length > 0) && <h2>Passed Petitions</h2>}
-
       {petitions && <PetitionList petitions={passedPetitions()} showVote={false} />}
     </div>
   )

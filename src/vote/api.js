@@ -5,9 +5,13 @@ const { getCurrentUser, getCollection } = api("votes");
 
 const submitVote = async (petitionId, selection) => {
   //check for existing vote
-  
-  const existingVotes = await getByPetitionIdForUser(petitionId);
-  if (existingVotes.length === 0) {
+
+  const existingVote = await getByPetitionIdForUser(petitionId);
+  if (existingVote) {
+    //update existing vote
+
+  }
+  else {
     const newVote = {
       petitionId,
       userId: getCurrentUser().uid,
@@ -20,7 +24,7 @@ const submitVote = async (petitionId, selection) => {
 const getByPetitionIdForUser = async (petitionId) => {
   const q = query(getCollection(), where("petitionId", "==", petitionId), where("userId", "==", getCurrentUser().uid));
   const membershipQuerySnapshot = await getDocs(q);
-  return membershipQuerySnapshot.docs;
+  return membershipQuerySnapshot.docs[0];
 }
 
 const getByPetitionId = async (petitionId) => {
@@ -29,5 +33,5 @@ const getByPetitionId = async (petitionId) => {
   return membershipQuerySnapshot.docs;
 }
 
-export { submitVote, getByPetitionId };
+export { submitVote, getByPetitionId, getByPetitionIdForUser };
 
