@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Vote from '../vote/Vote'
 import { getByCoalitionId } from './api'
 import './petition.css'
+import PetitionList from './PetitionList'
 
 const Petitions = ({ coalitionId }) => {
   const [petitions, setPetitions] = useState()
@@ -13,22 +14,19 @@ const Petitions = ({ coalitionId }) => {
     getFunc()
   }, [coalitionId])
 
-  const petitionsToShow = (petitions)=>{
-    return petitions.filter(p=>p.data().status === "new");
+  const openPetitions = () => {
+    return petitions.filter(p => p.data().status === "new");
   }
-
+  const passedPetitions = () => {
+    return petitions.filter(p => p.data().status === "complete");
+  }
   return (
     <div>
-      {petitions && <h2>Petitions</h2>}
-      {petitions && (petitionsToShow(petitions).map((petition,i) => {
-        const data = petition.data();        
-        return (<div key={i} className='petition-block'>
-          {data.petitionType === "0" && <div>Title: {data.title}</div>}
-          {data.petitionType === "0" && <div>Body: {data.body}</div>}
-          {data.petitionType === "1" && <div>Text: {data.charterText}</div>}
-          <Vote petitionId={petition.id} ></Vote>
-        </div>)
-      }))}
+      {petitions && openPetitions() && (openPetitions().length > 0) && <h2>Open Petitions</h2>}
+      {petitions && <PetitionList petitions={openPetitions()} showVote={true} />}
+      {petitions && passedPetitions() && (passedPetitions().length > 0) && <h2>Passed Petitions</h2>}
+
+      {petitions && <PetitionList petitions={passedPetitions()} showVote={false} />}
     </div>
   )
 }
