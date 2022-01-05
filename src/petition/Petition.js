@@ -31,7 +31,7 @@ const Petition = ({ petition, showVote }) => {
     {showVote && <Vote petitionId={petition.id} ></Vote>}
     
     {existingVote && <div>Your vote: {existingVote.data().selection}</div>}
-    {outcome && <div>Outcome: Yes: {outcome.yesVotes} No: {outcome.noVotes} Needed: {outcome.votesNeeded} Passed: {(outcome.yesVotes >= outcome.votesNeeded)?"yes":"no"}</div>}
+    {outcome && <div>Outcome: Yes: {outcome.yesVotes} No: {outcome.noVotes} Needed: {outcome.votesNeeded} Has Passed: {(outcome.yesVotes >= outcome.votesNeeded)?"yes":"no"}</div>}
   </div>)
 
 }
