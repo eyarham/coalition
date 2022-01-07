@@ -1,6 +1,6 @@
 import { addDoc, getDoc, getDocs, query, setDoc, where } from "firebase/firestore";
 import api, { getOriginUrl } from "../_common/api";
-import { add as addMember, getCoalitionIdsForCurrentUser, getMemberCount } from "../_common/membershipApi";
+import { add as addMember, getByCoalitionId, getCoalitionIdsForCurrentUser, getMemberCount } from "../_common/membershipApi";
 
 
 const { getCurrentUser, getDocRef, getCollection, deleteDocument } = api("coalitions");
@@ -61,11 +61,16 @@ const getAll = async () => {
 }
 
 const getById = async (id) => {
-  const docRef = getDocRef(id);
-  const coalition = await getDoc(docRef);
-  return coalition;
+  const membership = await getByCoalitionId(id);
+  if (membership) {
+    const docRef = getDocRef(id);
+    const coalition = await getDoc(docRef);
+    return coalition;
+  }
+  else{
+    throw new Error("Coalition does not exist or user is not a member.");
+  }
 }
-
 
 const getCoalitionLink = (coalitionId) => {
   const coalitionUrl = "/#/coalition/";

@@ -53,5 +53,5 @@ const remove = async (coalitionId) => {
   }
 }
 
-export { add, get, getCoalitionIdsForCurrentUser, remove, getAllByCoalitionId, getMemberCount };
+export { add, get, getCoalitionIdsForCurrentUser, remove, getAllByCoalitionId, getMemberCount, getByCoalitionId };
 
