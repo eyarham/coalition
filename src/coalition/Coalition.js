@@ -1,32 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
 import { getLink } from '../invite/api';
 import NewPetition from '../petition/NewPetition';
 import Petitions from '../petition/Petitions';
 import api from '../_common/api';
-import { getMemberCount, remove } from '../_common/membershipApi';
-import { deleteDocument, getCoalitionLink } from './api';
+import { getMemberCount } from '../_common/membershipApi';
+import { getCoalitionLink } from './api';
+import Charter from './Charter';
+import Delete from './Delete';
+import Leave from './Leave';
 
 const Coalition = ({ selectedCoalition }) => {
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(false);
   const [openCoalition, setOpenCoalition] = useState(false);
-  const [charterText, setCharterText] = useState(false);
-  const [deleteConfirm, setDeleteConfirm] = useState(false);
   const [memberCount, setMemberCount] = useState();
   const [inviteLink, setInviteLink] = useState("http://localhost:3000/");
-  const navigate = useNavigate();
   const setActiveCoalition = async (coalition) => {
     setOpenCoalition(coalition);
     const memberCountFunc = async () => await getMemberCount(coalition.id);
     const count = await memberCountFunc()
     setMemberCount(count);
-    setCharterText(coalition.data().charter)
   }
   useEffect(() => {
     const setFromProps = async () => setActiveCoalition(selectedCoalition);
     setFromProps();
-
   }, [selectedCoalition])
   useEffect(() => {
     const getInviteLink = async () => {
@@ -34,31 +29,7 @@ const Coalition = ({ selectedCoalition }) => {
     }
     if (openCoalition && openCoalition.id)
       getInviteLink();
-
   }, [openCoalition])
-  const onClickLeave = async e => {
-    e.preventDefault();
-    if (!showConfirm) { setShowConfirm(true); }
-    else {
-      try {
-        await remove(openCoalition.id);
-        navigate("/");
-      }
-      catch (e) {
-        setErrorMessage(e.message);
-      }
-    }
-
-  }
-  const onDeleteClick = e => {
-    e.preventDefault();
-    if (deleteConfirm) {
-      deleteDocument(openCoalition.id)
-      setDeleteConfirm(false);
-    }
-    else setDeleteConfirm(true);
-
-  }
   if (!openCoalition) return <div>Loading</div>;
   const isCreator = openCoalition && openCoalition.data().createdBy === api().getCurrentUser().uid;
   return (
@@ -68,10 +39,7 @@ const Coalition = ({ selectedCoalition }) => {
       <div>Name: {openCoalition.data().name}</div>
       <a href={getCoalitionLink(openCoalition.id)}>Coalition Link</a>
       <div>Members: {memberCount}</div>
-      <div>
-        <div>Charter:</div>
-        <textarea disabled value={charterText}></textarea>
-      </div>
+      <Charter openCoalition={openCoalition} />
       <input type="button" value="Copy Invite Link" onClick={() => { navigator.clipboard.writeText(inviteLink) }}></input>
       <div>Invite Link:</div>
       <div>
@@ -79,24 +47,9 @@ const Coalition = ({ selectedCoalition }) => {
       </div>
       <NewPetition coalitionId={openCoalition.id} />
       <Petitions coalitionId={openCoalition.id} />
+      <Leave openCoalition={openCoalition} />
       <div>
-        <input type="button" onClick={onClickLeave} value={"Leave " + openCoalition.data().name}></input>
-        {showConfirm && <div>click again to confirm</div>}
-      </div>
-      <div>
-        {isCreator &&
-          <div>Creator things
-            <div>
-              <input type="button" value="Delete Coalition" onClick={onDeleteClick}></input>
-            </div>
-            <div>{deleteConfirm && <div>Delete?</div>}</div>
-
-          </div>
-
-        }
-      </div>
-      <div>
-        {errorMessage}
+        {isCreator && <Delete openCoalition={openCoalition} />}
       </div>
     </div>
   )

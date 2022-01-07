@@ -1,5 +1,5 @@
 import { addDoc, getDocs, query, where } from "firebase/firestore";
-import { getById as getCoalitionById, getVotesNeeded, setCoalition } from '../coalition/api';
+import { getByIdForUser, getVotesNeeded, setCoalition } from '../coalition/api';
 import { getByPetitionId } from "../vote/api";
 import api from "../_common/api";
 
@@ -29,7 +29,7 @@ const executePetition = async (petitionId) => {
   const petition = await getById(petitionId);
   const { petitionType, coalitionId, charterText } = petition.data();
   if (petitionType === "1") {
-    const openCoalition = await getCoalitionById(coalitionId);
+    const openCoalition = await getByIdForUser(coalitionId);
     const coalitionToUpdate = { ...openCoalition.data(), charter: charterText }
     await setCoalition(openCoalition.id, coalitionToUpdate);
   }

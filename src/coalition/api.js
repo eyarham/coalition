@@ -1,7 +1,7 @@
 import { addDoc, getDoc, getDocs, query, setDoc, where } from "firebase/firestore";
 import api, { getOriginUrl } from "../_common/api";
 import { add as addMember, getByCoalitionId, getCoalitionIdsForCurrentUser, getMemberCount } from "../_common/membershipApi";
-
+import {get as getInvite} from "../invite/api";
 
 const { getCurrentUser, getDocRef, getCollection, deleteDocument } = api("coalitions");
 
@@ -61,11 +61,15 @@ const getAll = async () => {
 }
 
 const getById = async (id) => {
-  const membership = await getByCoalitionId(id);
-  if (membership) {
     const docRef = getDocRef(id);
     const coalition = await getDoc(docRef);
     return coalition;
+}
+
+const getByIdForUser = async (id)=>{
+  const membership = await getByCoalitionId(id);
+  if (membership) {
+    return await getById(id);
   }
   else{
     throw new Error("Coalition does not exist or user is not a member.");
@@ -97,5 +101,12 @@ const getVotesNeeded = async (coalitionId) => {
   return votesNeeded;
 }
 
-export { write, get, getAll, getById, setCoalition, getCoalitionLink, getCoalitionRedirect, getVotesNeeded, deleteDocument };
+const getByInviteId = async (inviteId) =>{
+  
+  var invite = await getInvite(inviteId);
+  var inviteCoalition = await getById(invite.data().coalitionId);
+return inviteCoalition
+}
+
+export { write, get, getAll, getByIdForUser, setCoalition, getCoalitionLink, getCoalitionRedirect, getVotesNeeded, deleteDocument,getByInviteId };
 
