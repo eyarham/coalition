@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { getById as getCoalition, getCoalitionRedirect } from '../coalition/api';
+import { getByInviteId, getCoalitionRedirect } from '../coalition/api';
 import { getCoalitionIdsForCurrentUser } from '../_common/membershipApi';
-import { accept, get } from './api';
+import { accept } from './api';
 
 const Invite = () => {
   let [searchParams] = useSearchParams();
@@ -17,8 +17,7 @@ const Invite = () => {
     const getData = async () => {
       let inviteId = searchParams.get("id");
       setInviteId(inviteId);
-      var invite = await get(inviteId);
-      var inviteCoalition = await getCoalition(invite.data().coalitionId);
+      var inviteCoalition = await getByInviteId(inviteId);
       //check membership
       var userCoalitionIds = await getCoalitionIdsForCurrentUser();
       if (userCoalitionIds.indexOf(inviteCoalition.id) > -1) {
