@@ -10,11 +10,7 @@ const add = async (coalitionId, memberId) => {
   }
   await addDoc(getCollection(), newMembership);
 }
-const get = () => {
 
-
-
-}
 const getCoalitionIdsForCurrentUser = async () => {
   const q2 = query(getCollection(), where("memberId", "==", getCurrentUser().uid));
   const membershipQuerySnapshot = await getDocs(q2);
@@ -42,7 +38,6 @@ const getMemberCount = async (coalitionId) => {
 }
 
 const remove = async (coalitionId) => {
-
   const membership = await getByCoalitionId(coalitionId);
   var memberCount = await getMemberCount(membership.data().coalitionId)
   if (memberCount > 1) {
@@ -53,5 +48,5 @@ const remove = async (coalitionId) => {
   }
 }
 
-export { add, get, getCoalitionIdsForCurrentUser, remove, getAllByCoalitionId, getMemberCount, getByCoalitionId };
+export { add, getCoalitionIdsForCurrentUser, remove, getAllByCoalitionId, getMemberCount, getByCoalitionId };
 
