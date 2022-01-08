@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import InviteLink from '../invite/InviteLink';
 import NewPetition from '../petition/NewPetition';
 import Petitions from '../petition/Petitions';
+import Rules from '../rules/Rules';
 import Members from '../user/Members';
 import api from '../_common/api';
 import { getMemberCount } from '../_common/membershipApi';
@@ -34,6 +35,7 @@ const Coalition = ({ selectedCoalition }) => {
       <div>Members: {memberCount}</div>
       <Members coalitionId={openCoalition.id} />
       <Charter openCoalition={openCoalition} />
+      <Rules coalitionId={openCoalition.id} />
       <InviteLink coalitionId={openCoalition.id} />
       <NewPetition coalitionId={openCoalition.id} />
       <Petitions coalitionId={openCoalition.id} />
