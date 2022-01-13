@@ -5,7 +5,7 @@ import Petitions from '../petition/Petitions';
 import Rules from '../rules/Rules';
 import Members from '../user/Members';
 import api from '../_common/api';
-import { getMemberCount } from '../_common/membershipApi';
+import ExpandBox from '../_common/ExpandBox';
 import { getCoalitionLink } from './api';
 import Charter from './Charter';
 import Delete from './Delete';
@@ -13,12 +13,8 @@ import Leave from './Leave';
 
 const Coalition = ({ selectedCoalition }) => {
   const [openCoalition, setOpenCoalition] = useState(false);
-  const [memberCount, setMemberCount] = useState();
   const setActiveCoalition = async (coalition) => {
     setOpenCoalition(coalition);
-    const memberCountFunc = async () => await getMemberCount(coalition.id);
-    const count = await memberCountFunc()
-    setMemberCount(count);
   }
   useEffect(() => {
     const setFromProps = async () => setActiveCoalition(selectedCoalition);
@@ -28,17 +24,25 @@ const Coalition = ({ selectedCoalition }) => {
   const isCreator = openCoalition && openCoalition.data().createdBy === api().getCurrentUser().uid;
   return (
     <div>
-      Selected Coalition
-      <hr />
-      <div>Name: {openCoalition.data().name}</div>
+      <h2> {openCoalition.data().name}</h2>
       <a href={getCoalitionLink(openCoalition.id)}>Coalition Link</a>
-      <div>Members: {memberCount}</div>
-      <Members coalitionId={openCoalition.id} />
-      <Charter openCoalition={openCoalition} />
-      <Rules coalitionId={openCoalition.id} />
-      <InviteLink coalitionId={openCoalition.id} />
-      <NewPetition coalitionId={openCoalition.id} />
-      <Petitions coalitionId={openCoalition.id} />
+
+      <ExpandBox headerText="Members">
+        <Members coalitionId={openCoalition.id} />
+      </ExpandBox>
+      <ExpandBox headerText="Charter">
+        <Charter openCoalition={openCoalition} />
+      </ExpandBox>
+      <ExpandBox headerText="Rules"><Rules coalitionId={openCoalition.id} /></ExpandBox>
+      <ExpandBox headerText="Invite">
+        <InviteLink coalitionId={openCoalition.id} />
+      </ExpandBox>
+      <ExpandBox headerText="New Petition">
+        <NewPetition coalitionId={openCoalition.id} />
+      </ExpandBox>
+      <ExpandBox headerText="Petitions">
+        <Petitions coalitionId={openCoalition.id} />
+      </ExpandBox>
       <Leave openCoalition={openCoalition} />
       <div>
         {isCreator && <Delete openCoalition={openCoalition} />}
