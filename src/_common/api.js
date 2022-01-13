@@ -1,5 +1,5 @@
 import { getAuth } from "firebase/auth";
-import { collection, doc, getDoc, getFirestore, setDoc , deleteDoc} from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query, setDoc, where } from "firebase/firestore";
 
 const api = (collectionString) => {
 
@@ -20,16 +20,32 @@ const api = (collectionString) => {
     return await getDoc(docRef);
   }
 
+  const createDoc = async doc => {
+    const docToAdd = {
+      createdBy: getCurrentUser().uid,
+      createdDate: new Date(),
+      ...doc
+    }
+    return await addDoc(getCollection(), docToAdd);
+  }
+
   const set = async (id, data) => {
     await setDoc(getDocRef(id), data);
     return await getById(id);
   }
 
-  const deleteDocument = async id =>{
+  const deleteDocument = async id => {
     await deleteDoc(getDocRef(id));
   }
 
-  return { getCurrentUser, getDocRef, getCollection, getById, set, deleteDocument };
+
+  const getByCoalitionId = async coalitionId => {
+    const q = query(getCollection(), where("coalitionId", "==", coalitionId));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs;
+  }
+
+  return { getCurrentUser, createDoc, getDocRef, getCollection, getById, set, deleteDocument, getByCoalitionId };
 }
 export default api;
 

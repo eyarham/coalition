@@ -45,14 +45,14 @@ const checkVotes = async (petitionId) => {
   }
 }
 
-const getOutcome = async (petitionId)=>{
+const getOutcome = async (petitionId) => {
   const petition = await getById(petitionId);
   const votesNeeded = petition.data().votesNeeded;
   const votes = await getByPetitionId(petitionId);
   const yesVotes = votes.filter(v => v.data().selection === "yes").length;
   const noVotes = votes.filter(v => v.data().selection === "no").length;
-  
-return {votesNeeded, yesVotes, noVotes}
+
+  return { votesNeeded, yesVotes, noVotes }
 
 }
 
