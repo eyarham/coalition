@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
 
-const Charter = ({openCoalition}) => {
-  const charterText = openCoalition.data().charterText;
+const Charter = ({ openCoalition }) => {
+  const charterText = openCoalition.data().charter;
   return (
-    <div>      
+    <div>
       <div>Charter:</div>
-        <textarea disabled value={charterText}></textarea>
+      <textarea disabled value={charterText}></textarea>
     </div>
   )
 }

@@ -11,7 +11,7 @@ const Rules = ({ coalitionId }) => {
     effect();
 
   }, [coalitionId])
-
+  if(!rules) return (<div>No rules yet...</div>);
   return (
     <div>
       {rules && rules.map((r, i) => <div key={i}>rule: </div>)}
