@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { create } from "../user/api";
 
 function LoginPanel() {
@@ -8,17 +8,25 @@ function LoginPanel() {
   const [password, setPassword] = useState("");
   const [loggedInUser, setLoggedInUser] = useState();
   const [loginErrorMessage, setLoginErrorMessage] = useState();
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted( true);               // note mutable flag
+    // someAsyncOperation().then(data => {
+    //   if (isMounted) setState(data);    // add conditional check
+    // })
+    return () => { setIsMounted(false) }; // cleanup toggles value, if unmounted
+  }, []);  
   onAuthStateChanged(auth, (user) => {
     if (user) {
       // User is signed in, see docs for a list of available properties
       // https://firebase.google.com/docs/reference/js/firebase.User
       //const uid = user.uid;
-      setLoggedInUser(user);
+      if (isMounted)  setLoggedInUser(user);
       // ...
     } else {
       // User is signed out
       // ...
-      setLoggedInUser(null);
+      if (isMounted)  setLoggedInUser(null);
     }
   });
   const createAccount = () => {
@@ -65,7 +73,7 @@ function LoginPanel() {
       {(!loggedInUser) && "no user"}
       <form>
         <input placeholder="email" onChange={changeEmail}></input>
-        <input type="password" placeholder="password" onChange={changePassword}></input>
+        <input type="password" placeholder="password" autoComplete="on" onChange={changePassword}></input>
         <input type="button" onClick={signIn} value="Sign In"></input>
         <input type="button" onClick={createAccount} value="Create New User"></input>
       </form>
