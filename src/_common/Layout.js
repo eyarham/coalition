@@ -11,13 +11,11 @@ const Layout = () => {
         <a href={getOriginUrl()}><h1>Coalition</h1></a>
         <span style={{ "float": "right" }}><a href="https://github.com/eyarham/coalition">code</a></span>
       </header>
-      <body>
         <FirebaseApp>
           <AuthWrapper>
             <Outlet />
           </AuthWrapper>
         </FirebaseApp>
-      </body>
     </div>
   )
 }

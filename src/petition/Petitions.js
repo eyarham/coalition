@@ -19,12 +19,13 @@ const Petitions = ({ coalitionId }) => {
   const passedPetitions = () => {
     return petitions.filter(p => p.data().status === "complete");
   }
+  if(!petitions) return <div></div>;
   return (
     <div>
-      {petitions && openPetitions() && (openPetitions().length > 0) && <h2>Open Petitions</h2>}
-      {petitions && <PetitionList petitions={openPetitions()} showVote={true} />}
-      {petitions && passedPetitions() && (passedPetitions().length > 0) && <h2>Passed Petitions</h2>}
-      {petitions && <PetitionList petitions={passedPetitions()} showVote={false} />}
+      {openPetitions() && (openPetitions().length > 0) && <h2>Open Petitions</h2>}
+      { <PetitionList petitions={openPetitions()} showVote={true} />}
+      { passedPetitions() && (passedPetitions().length > 0) && <h2>Passed Petitions</h2>}
+      { <PetitionList petitions={passedPetitions()} showVote={false} />}
     </div>
   )
 }

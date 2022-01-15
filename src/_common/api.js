@@ -25,6 +25,15 @@ const api = (collectionString) => {
     return await firebase.getDoc(docRef);
   }
 
+  const createDoc = async doc => {
+    const docToAdd = {
+      createdBy: getCurrentUser().uid,
+      createdDate: new Date(),
+      ...doc
+    }
+    return await addDoc(getCollection(), docToAdd);
+  }
+
   const set = async (id, data) => {
     await firebase.setDoc(getDocRef(id), data);
     return await getById(id);
@@ -34,7 +43,14 @@ const api = (collectionString) => {
     await firebase.deleteDoc(getDocRef(id));
   }
 
-  return { getCurrentUser, getDocRef, getCollection, getById, set, deleteDocument };
+
+  const getByCoalitionId = async coalitionId => {
+    const q = query(getCollection(), where("coalitionId", "==", coalitionId));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs;
+  }
+
+  return { getCurrentUser, createDoc, getDocRef, getCollection, getById, set, deleteDocument, getByCoalitionId };
 }
 export default api;
 
