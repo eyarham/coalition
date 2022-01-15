@@ -1,9 +1,9 @@
 import { getAuth } from "firebase/auth";
-import { collection, doc, getDoc, getFirestore, setDoc , deleteDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query, setDoc, where } from "firebase/firestore";
 
 // Allows for better testing experience
 const firebase = {
-  getAuth, collection, doc, getDoc, getFirestore, setDoc , deleteDoc
+  getAuth, collection, doc, getDoc, getFirestore, setDoc, deleteDoc
 }
 
 const api = (collectionString) => {
@@ -39,7 +39,7 @@ const api = (collectionString) => {
     return await getById(id);
   }
 
-  const deleteDocument = async id =>{
+  const deleteDocument = async id => {
     await firebase.deleteDoc(getDocRef(id));
   }
 
@@ -62,3 +62,4 @@ const getOriginUrl = () => {
   return baseUrl;
 }
 export { getOriginUrl, firebase };
+
