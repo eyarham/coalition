@@ -1,23 +1,28 @@
 import { getAuth } from "firebase/auth";
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query, setDoc, where } from "firebase/firestore";
+import { collection, doc, getDoc, getFirestore, setDoc , deleteDoc } from "firebase/firestore";
+
+// Allows for better testing experience
+const firebase = {
+  getAuth, collection, doc, getDoc, getFirestore, setDoc , deleteDoc
+}
 
 const api = (collectionString) => {
 
   const getCurrentUser = () => {
-    const auth = getAuth();
+    const auth = firebase.getAuth();
     return auth.currentUser;
   }
   const getDocRef = (id) => {
-    const db = getFirestore();
-    return doc(db, collectionString, id);
+    const db = firebase.getFirestore();
+    return firebase.doc(db, collectionString, id);
   }
   const getCollection = () => {
-    const db = getFirestore();
-    return collection(db, collectionString);
+    const db = firebase.getFirestore();
+    return firebase.collection(db, collectionString);
   }
   const getById = async id => {
     const docRef = getDocRef(id);
-    return await getDoc(docRef);
+    return await firebase.getDoc(docRef);
   }
 
   const createDoc = async doc => {
@@ -30,12 +35,12 @@ const api = (collectionString) => {
   }
 
   const set = async (id, data) => {
-    await setDoc(getDocRef(id), data);
+    await firebase.setDoc(getDocRef(id), data);
     return await getById(id);
   }
 
-  const deleteDocument = async id => {
-    await deleteDoc(getDocRef(id));
+  const deleteDocument = async id =>{
+    await firebase.deleteDoc(getDocRef(id));
   }
 
 
@@ -56,4 +61,4 @@ const getOriginUrl = () => {
   }
   return baseUrl;
 }
-export { getOriginUrl };
+export { getOriginUrl, firebase };
