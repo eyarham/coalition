@@ -1,5 +1,6 @@
 import { addDoc, getDocs, query, where } from "firebase/firestore";
-import { getByIdForUser, getVotesNeeded, setCoalition } from '../coalition/api';
+import { getVotesNeeded, updateCharter } from '../coalition/api';
+import { create, updateRule } from "../rules/api";
 import { getByPetitionId } from "../vote/api";
 import api from "../_common/api";
 
@@ -28,10 +29,16 @@ const getByCoalitionId = async coalitionId => {
 const executePetition = async (petitionId) => {
   const petition = await getById(petitionId);
   const { petitionType, coalitionId, charterText } = petition.data();
-  if (petitionType === "1") {
-    const openCoalition = await getByIdForUser(coalitionId);
-    const coalitionToUpdate = { ...openCoalition.data(), charter: charterText }
-    await setCoalition(openCoalition.id, coalitionToUpdate);
+  if (petitionType === "1") {//Update Charter
+    await updateCharter(coalitionId, charterText);
+  }
+  else if (petitionType === "2") {//Rule Add
+    const { ruleName, value } = petition.data();
+    await create(coalitionId, ruleName, value);
+  }
+  else if (petitionType === "3") {//Rule Change
+    const { ruleName, value } = petition.data();
+    await updateRule(coalitionId, ruleName, value);
   }
   await set(petitionId, { ...petition.data(), status: "complete" });
 }

@@ -1,6 +1,5 @@
 import { getAuth } from "firebase/auth";
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query, setDoc, where } from "firebase/firestore";
-
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, onSnapshot, query, setDoc, where } from "firebase/firestore";
 // Allows for better testing experience
 const firebase = {
   getAuth, collection, doc, getDoc, getFirestore, setDoc, deleteDoc
@@ -43,14 +42,21 @@ const api = (collectionString) => {
     await firebase.deleteDoc(getDocRef(id));
   }
 
-
   const getByCoalitionId = async coalitionId => {
     const q = query(getCollection(), where("coalitionId", "==", coalitionId));
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs;
   }
 
-  return { getCurrentUser, createDoc, getDocRef, getCollection, getById, set, deleteDocument, getByCoalitionId };
+  const getByCoalitionIdSub = (coalitionId, callback)=>{
+    const q = query(getCollection(), where("coalitionId", "==", coalitionId));
+    const unsub = onSnapshot(q, (querySnapshot) => {
+      callback(querySnapshot.docs);
+    });
+    return unsub;
+  }
+
+  return { getCurrentUser, createDoc, getDocRef, getCollection, getById, set, deleteDocument, getByCoalitionId, getByCoalitionIdSub };
 }
 export default api;
 
