@@ -108,5 +108,11 @@ const getByInviteId = async (inviteId) =>{
 return inviteCoalition
 }
 
-export { write, get, getAll, getByIdForUser, setCoalition, getCoalitionLink, getCoalitionRedirect, getVotesNeeded, deleteDocument,getByInviteId };
+const updateCharter = async (coalitionId, charterText)=>{
+  const openCoalition = await getByIdForUser(coalitionId);
+  const coalitionToUpdate = { ...openCoalition.data(), charter: charterText }
+  await setCoalition(openCoalition.id, coalitionToUpdate);
+}
+
+export { write, get, getAll, getByIdForUser, setCoalition, getCoalitionLink, getCoalitionRedirect, getVotesNeeded, deleteDocument,getByInviteId,updateCharter };
 

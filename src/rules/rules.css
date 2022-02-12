@@ -1,0 +1,23 @@
+.new-rule-row input {
+  width: 120px;
+}
+
+.rule-row{
+  text-align: right;
+}
+.rule-name-col {
+  text-align: left;
+  margin-right: 10px;
+}
+.rule-value-col {
+  text-align: left;
+  
+}
+.rule-table tr td {
+  /* border: 1px solid black; */
+  /* border-collapse: collapse;1 */
+}
+
+.new-rule-add input{
+  width: 40px;
+}

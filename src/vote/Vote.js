@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { checkVotes } from '../petition/api';
-import { submitVote } from './api';
+import { getByPetitionIdForUser, submitVote } from './api';
 
 const Vote = ({ petitionId }) => {
+  const [selectedVote, setSelectedVote] = useState();
   const onVoteYes = async e => {
     e.preventDefault();
     await submitVote(petitionId, "yes");
@@ -13,10 +14,25 @@ const Vote = ({ petitionId }) => {
     await submitVote(petitionId, "no");
     await checkVotes(petitionId);
   }
+  const onSign = async e => {
+    
+    e.preventDefault();
+    await submitVote(petitionId, "sign");
+    await checkVotes(petitionId);
+  }
+  useEffect(() => {
+    const effect = async () => {
+      const existingVote = await getByPetitionIdForUser(petitionId);
+      if (existingVote) setSelectedVote(existingVote.data());
+    }
+    effect();
+  }, [petitionId])
   return (
     <div>
       <input type="button" value="yes" onClick={onVoteYes}></input>
       <input type="button" value="no" onClick={onVoteNo}></input>
+      <input type="button" value="Sign" onClick={onSign} ></input>
+      Selection: {selectedVote && selectedVote.selection}
     </div>
   )
 }
