@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getByCoalitionId } from './api';
-
+import "./user.css"
 const Members = ({ coalitionId }) => {
   const [members, setMembers] = useState();
   useEffect(() => {
@@ -15,8 +15,13 @@ const Members = ({ coalitionId }) => {
       <div>Member number: {members && members.length}</div>
       {members && members.map((m, i) => {
         if (m) {
-          const { displayName } = m.data();
-          return (<div key={i}>{displayName || "no display name"}</div>);
+          const { displayName, pronouns } = m.data();
+          return (
+          <div key={i}>
+           <span> {displayName || "no display name"}</span>
+          <span className='member-pronouns'>({pronouns})</span>
+          
+          </div>);
         }
         else return <div key={i}>No info</div>
       })}
