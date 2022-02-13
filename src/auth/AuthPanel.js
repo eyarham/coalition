@@ -28,7 +28,6 @@ const auth = getAuth();
       {(!loggedInUser) &&
         <LoginPanel />
       }
-
     </div>
   )
 }

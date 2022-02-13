@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 
 function LoggedIn() {
-const auth = getAuth();
+  const auth = getAuth();
   const [loggedInUser, setLoggedInUser] = useState();
   onAuthStateChanged(auth, (user) => {
     if (user) {
