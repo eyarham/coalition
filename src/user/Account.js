@@ -29,12 +29,12 @@ const Account = () => {
   }
   const onSubmitAccountSave = async e => {
     e.preventDefault();
-    await set(selectedAccount.id,
-      {
-        ...selectedAccount.data(),
-        displayName: updatedDisplayName,
-        pronouns
-      })
+    const newAccount = {
+      ...selectedAccount.data(),
+      displayName: updatedDisplayName,
+      pronouns
+    }
+    await set(selectedAccount.id, newAccount);
     setMessage("update successful");
   }
   if (!selectedAccount) return <div>Loading...</div>;

@@ -55,7 +55,6 @@ const api = (collectionString) => {
     });
     return unsub;
   }
-
   return { getCurrentUser, createDoc, getDocRef, getCollection, getById, set, deleteDocument, getByCoalitionId, getByCoalitionIdSub };
 }
 export default api;
