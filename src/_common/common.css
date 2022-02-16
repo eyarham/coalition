@@ -29,3 +29,9 @@ margin: 0 auto;
   float:left;
   margin: 0 auto;
 }
+
+
+.header-logo{
+  float: left;
+  margin: 0;
+}
