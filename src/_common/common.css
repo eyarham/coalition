@@ -18,3 +18,14 @@
   border: 1px solid black;
   padding: 5px;
 }
+
+.browse-link{
+float:left;
+margin: 0 auto;
+}
+
+.code-link{
+
+  float:left;
+  margin: 0 auto;
+}
