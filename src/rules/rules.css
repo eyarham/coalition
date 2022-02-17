@@ -13,10 +13,6 @@
   text-align: left;
   
 }
-.rule-table tr td {
-  /* border: 1px solid black; */
-  /* border-collapse: collapse;1 */
-}
 
 .new-rule-add input{
   width: 40px;

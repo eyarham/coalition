@@ -4,7 +4,7 @@ import { updateRule } from './api';
 
 const RuleEditCell = ({ r }) => {
   const coalitionContext = useContext(CoalitionContext);
-  const { isOnlyUser, coalition } = coalitionContext;
+  const { coalition } = coalitionContext;
   const { value, name } = r.data();
   const [isInEditMode, setIsInEditMode] = useState(false);
   const [message, setMessage] = useState("");
@@ -40,7 +40,7 @@ const RuleEditCell = ({ r }) => {
           <input type="button" onClick={cancelEdit} value="cancel" ></input>
         </form>
       }
-          <span className='rule-edit-message'>{message}</span>
+      <span className='rule-edit-message'>{message}</span>
     </td>
   )
 }
