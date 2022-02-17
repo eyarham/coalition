@@ -1,13 +1,12 @@
-import React from 'react'
-import mainLogo from '../__resources/Coalition.png'
-import { getOriginUrl } from './api';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import mainLogo from '../__resources/Coalition.png';
 import './common.css';
 
 const HeaderLogo = () => {
   return (
     <div className='header-logo'>
-    <a href={getOriginUrl()}>
-      <img src={mainLogo} alt="fireSpot"/></a>
+      <Link  to="/"><img src={mainLogo} alt="fireSpot"/></Link>
     </div>
   )
 }
