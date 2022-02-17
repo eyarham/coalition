@@ -21,3 +21,7 @@
 .new-rule-add input{
   width: 40px;
 }
+
+.rule-edit-message{
+  color: red;
+}

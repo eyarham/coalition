@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Routes } from "react-router-dom";
+import Browse from '../browse/Browse';
 import CoalitionPage from '../coalition/CoalitionPage';
 import CoalitionPanel from '../coalition/CoalitionPanel';
 import Invite from '../invite/Invite';
@@ -14,6 +15,7 @@ const Router = () => {
         <Route path="/invite" element={<Invite />} />
         <Route path="/account" element={<Account />} />
         <Route path="/coalition/:coalitionId" element={<CoalitionPage />} />
+        <Route path="/browse" element={<Browse />} />
       </Route>
     </Routes>
   )
