@@ -4,9 +4,9 @@ const { getByCoalitionId, getByCoalitionIdQuery, createDoc, set, getByCoalitionI
 
 const getByName = async (coalitionId, name) => {
   const allByCoalition = await getByCoalitionId(coalitionId);
-  const selectedCoalition = allByCoalition.filter(c => c.data().name === name);
-  if (selectedCoalition.length === 1)
-    return selectedCoalition[0];
+  const filteredRules = allByCoalition.filter(c => c.data().name === name);
+  if (filteredRules.length === 1)
+    return filteredRules[0];
 }
 
 const create = async (coalitionId, name, value) => {
@@ -26,4 +26,11 @@ const updateRule = async (coalitionId, name, value) => {
   await set(ruleToUpdate.id, newData);
 }
 
-export { getByCoalitionId, create, updateRule, getByCoalitionIdQuery, getByCoalitionIdSub };
+const checkRule = async (coalitionId, name, value) => {
+  const ruleToCheck = await getByName(coalitionId, name);
+  if (ruleToCheck) {
+    return ruleToCheck.data().value === value;
+  }
+}
+
+export { getByCoalitionId, create, updateRule, getByCoalitionIdQuery, getByCoalitionIdSub, checkRule };

@@ -7,7 +7,7 @@ import Rules from '../rules/Rules';
 import Members from '../user/Members';
 import api from '../_common/api';
 import ExpandBox from '../_common/ExpandBox';
-import { getMemberCount } from '../_common/membershipApi';
+import { getIsOnlyUser } from '../_common/membershipApi';
 import { getCoalitionLink } from './api';
 import Charter from './Charter';
 import Delete from './Delete';
@@ -16,6 +16,7 @@ import Leave from './Leave';
 const CoalitionContext = createContext();
 const Coalition = ({ selectedCoalition }) => {
   const [openCoalition, setOpenCoalition] = useState(false);
+  const [showUsers, setShowUsers] = useState(false);
   const [isOnlyUser, setIsOnlyUser] = useState();
   const [rules, setRules] = useState();
   const setActiveCoalition = async (coalition) => {
@@ -27,31 +28,38 @@ const Coalition = ({ selectedCoalition }) => {
   }, [selectedCoalition]);
   useEffect(() => {
     const effect = async () => {
-      const memberCount = await getMemberCount(selectedCoalition.id);
-      if (memberCount > 1)
-        setIsOnlyUser(false);
-      else if (memberCount === 1)
-        setIsOnlyUser(true);
+      const isOnlyUserResult = await getIsOnlyUser(selectedCoalition.id);
+      setIsOnlyUser(isOnlyUserResult);
     }
     effect();
   }, [selectedCoalition]);
   useEffect(() => {
-    return getByCoalitionIdSub(selectedCoalition.id, rulesResult => setRules(rulesResult));    ;
+    const isShowUsers = () => {
+      if (rules) {
+        const value = rules.filter(r => r.data().name === "ShowUsers")[0].data().value;
+        return value === "true";
+      }
+    }
+    setShowUsers(isShowUsers);
+  }, [rules])
+  useEffect(() => {
+    return getByCoalitionIdSub(selectedCoalition.id, rulesResult => setRules(rulesResult));
   }, [selectedCoalition.id])
   if (!openCoalition) return <div>Loading</div>;
   const isCreator = openCoalition && openCoalition.data().createdBy === api().getCurrentUser().uid;
   //TODO: create a useEffect hook that connects the coalition sub 
   //      and sets state
   return (
-    <CoalitionContext.Provider value={{ coalition: openCoalition, isCreator, isOnlyUser, rules }}>
+    <CoalitionContext.Provider value={{ coalition: openCoalition, isCreator, isOnlyUser, rules, showUsers }}>
       <div>
         <h2> {openCoalition.data().name}</h2>
         {isOnlyUser && <div>Only User Mode</div>}
         <a href={getCoalitionLink(openCoalition.id)}>Coalition Link</a>
-
-        <ExpandBox headerText="Members">
-          <Members coalitionId={openCoalition.id} />
-        </ExpandBox>
+        {showUsers &&
+          <ExpandBox headerText="Members">
+            <Members coalitionId={openCoalition.id} />
+          </ExpandBox>
+        }
         <ExpandBox headerText="Charter">
           <Charter openCoalition={openCoalition} />
         </ExpandBox>

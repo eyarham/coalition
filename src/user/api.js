@@ -31,11 +31,13 @@ const getById = async (id) => {
 }
 const getByCoalitionId = async (coalitionId) => {
   const memberships = await getAllByCoalitionId(coalitionId);
-  const memberUsers = await Promise.all(memberships.map(async (m, i) => {
-    const user = await getById(m.data().memberId);
-    return user;
-  }));
-  return memberUsers;
+  if (memberships && memberships.length > 0) {
+    const memberUsers = await Promise.all(memberships.map(async (m, i) => {
+      const user = await getById(m.data().memberId);
+      return user;
+    }));
+    return memberUsers;
+  }
 }
 
 export { create, get, set, getByCoalitionId };
