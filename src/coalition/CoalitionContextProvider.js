@@ -55,7 +55,7 @@ const CoalitionContextProvider = ({ children, coalitionId }) => {
   return (
     <CoalitionContext.Provider value={{ coalition: openCoalition, isCreator, isOnlyUser, rules, showUsers }}>
       {children}
-      <div>{message}</div>
+      {message &&  <div>{message}</div>}     
     </CoalitionContext.Provider>
   )
 }
