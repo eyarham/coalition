@@ -1,13 +1,14 @@
+import { updateEmail } from "firebase/auth";
 import { addDoc, getDoc, getDocs, query, where } from "firebase/firestore";
 import api from "../_common/api";
 import { getAllByCoalitionId } from "../_common/membershipApi";
-import { updateEmail } from "firebase/auth";
 
-const { getCurrentUser, getCollection, set } = api("users");
+const { getCurrentUser, getCollection, set, getById } = api("users");
 
-const create = async (userId) => {
+const create = async (authId) => {
   var newUserData = {
-    userId: userId,
+    userId: authId,
+    authId: authId,
     displayName: '',
     createdBy: getCurrentUser().uid
   };
@@ -17,10 +18,16 @@ const create = async (userId) => {
 
 const get = async () => {
   const user = getCurrentUser();
-  return await getById(user.uid);
+  return await getByAuthId(user.uid);
 }
 
-const getById = async (id) => {
+const getCurrentUserId = async () => {
+  const authUser = getCurrentUser();
+  const user = await getByAuthId(authUser.uid);
+  return user.id;
+}
+
+const getByAuthId = async (id) => {
   const q2 = query(getCollection(), where("userId", "==", id));
   const membershipQuerySnapshot = await getDocs(q2);
   if (membershipQuerySnapshot.empty) return await getDoc(create(id));
@@ -44,5 +51,18 @@ const updateUserEmail = async (newEmail) => {
   await updateEmail(user, newEmail);
 }
 
-export { create, get, set, getByCoalitionId, updateUserEmail };
+const getUserName = async (userId) => {
+  if (!userId) return;
+  const user = await getById(userId);
+  const userName = user.data().displayName
+  return userName;
+}
+
+const getUserPronouns = async (userId) => {
+  if (!userId) return;
+  const user = await getById(userId);
+  return user.data().pronouns;  
+}
+
+export { create, get, set, getByCoalitionId, updateUserEmail, getUserName, getCurrentUserId ,getUserPronouns};
 

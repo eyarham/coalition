@@ -3,18 +3,19 @@ import api, { getOriginUrl } from "../_common/api";
 import { add as addMember, getByCoalitionId, getCoalitionIdsForCurrentUser, getMemberCount } from "../_common/membershipApi";
 import { get as getInvite } from "../invite/api";
 import { getByCoalitionId as getRulesByCoalitionId } from '../rules/api'
+import { getCurrentUserId } from "../user/api";
 
-const { getCurrentUser, getDocRef, getCollection, deleteDocument } = api("coalitions");
+const {  getDocRef, getCollection, deleteDocument } = api("coalitions");
 
 const write = async (name) => {
   try {
     var newCoalition = {
       name,
-      createdBy: getCurrentUser().uid
+      createdBy: await getCurrentUserId()
     }
     const docRef = await addDoc(getCollection(), newCoalition);
     console.log("Document written with ID: ", docRef.id);
-    await addMember(docRef.id, getCurrentUser().uid);
+    await addMember(docRef.id, await getCurrentUserId());
   } catch (e) {
     console.error("Error adding document: ", e);
   }
