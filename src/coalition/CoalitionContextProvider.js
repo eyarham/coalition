@@ -6,8 +6,7 @@ import { getByIdForUser } from './api';
 
 const CoalitionContext = createContext();
 const CoalitionContextProvider = ({ children, coalitionId }) => {
-  const [selectedCoalition, setSelectedCoalition] = useState();
-  const [openCoalition, setOpenCoalition] = useState(false);
+  const [openCoalition, setOpenCoalition] = useState();
   const [isOnlyUser, setIsOnlyUser] = useState();
   const [showUsers, setShowUsers] = useState(false);
   const [rules, setRules] = useState();
@@ -16,7 +15,7 @@ const CoalitionContextProvider = ({ children, coalitionId }) => {
     const setFromParams = async () => {
       try {
         const coalition = await getByIdForUser(coalitionId);
-        setSelectedCoalition(coalition);
+        setOpenCoalition(coalition);
       }
       catch (e) {
         setMessage(e.message);
@@ -45,13 +44,8 @@ const CoalitionContextProvider = ({ children, coalitionId }) => {
       return getByCoalitionIdSub(coalitionId, rulesResult => setRules(rulesResult));
   }, [coalitionId])
   const isCreator = openCoalition && openCoalition.data().createdBy === api().getCurrentUser().uid;
-  const setActiveCoalition = async (coalition) => {
-    setOpenCoalition(coalition);
-  }
-  useEffect(() => {
-    const setFromProps = async () => setActiveCoalition(selectedCoalition);
-    setFromProps();
-  }, [selectedCoalition]);
+
+
   if (isOnlyUser === undefined
     || openCoalition === undefined
     || rules === undefined
