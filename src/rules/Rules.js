@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { CoalitionContext } from '../coalition/Coalition';
+import { CoalitionContext } from '../coalition/CoalitionContextProvider';
 import { getByCoalitionIdSub } from './api';
 import NewRule from './NewRule';
 import NewRuleRow from './NewRuleRow';
@@ -30,7 +30,7 @@ const Rules = () => {
           {rules && rules.map((r, i) =>
             <tr key={i}>
               <td className='rule-name-col'> {r.data().name}</td>
-              <RuleEditCell r={r}/>
+              <RuleEditCell r={r} />
             </tr>)}
           {isOnlyUser && <NewRuleRow />}
         </tbody>

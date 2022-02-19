@@ -1,7 +1,7 @@
 
 import React, { useContext, useState } from 'react';
-import { CoalitionContext } from '../coalition/Coalition';
 import { updateCharter } from './api';
+import { CoalitionContext } from './CoalitionContextProvider';
 
 const Charter = () => {
   const coalitionContext = useContext(CoalitionContext);

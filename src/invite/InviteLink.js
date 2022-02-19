@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { CoalitionContext } from '../coalition/CoalitionContextProvider';
 import { getLink } from './api';
 
-const InviteLink = ({coalitionId}) => {
+const InviteLink = () => {
+  const coalitionContext = useContext(CoalitionContext);
+  const { coalition } = coalitionContext;
   const [inviteLink, setInviteLink] = useState("http://localhost:3000/");
   useEffect(() => {
     const getInviteLink = async () => {
-      setInviteLink(await getLink(coalitionId));
+      setInviteLink(await getLink(coalition.id));
     }
-    if (coalitionId)
+    if (coalition.id)
       getInviteLink();
-  }, [coalitionId])
+  }, [coalition.id])
   return (
     <div>
       <div>Invite Link:</div>

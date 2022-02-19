@@ -1,29 +1,32 @@
-import React, { useState , useEffect} from 'react'
-import Coalition from './Coalition'
+import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import { getByIdForUser } from './api';
+import CoalitionWithContext from './CoalitionWithContext';
 
 const CoalitionPage = () => {
   let params = useParams();
-  const [selectedCoalition, setSelectedCoalition] = useState()
+  const [selectedCoalition, setSelectedCoalition] = useState();
+  const [coalitionId, setCoalitionId] = useState();
+
   const [message, setMessage] = useState()
- 
   useEffect(() => {
     const setFromParams = async () => {
-      try{
-      const coalition = await getByIdForUser(params.coalitionId);     
-      setSelectedCoalition(coalition);
+      try {
+        const coalition = await getByIdForUser(params.coalitionId);
+        setSelectedCoalition(coalition);
+        //validate coalitionId
+        setCoalitionId(params.coalitionId);
       }
-      catch(e){
+      catch (e) {
         setMessage(e.message);
       }
     }
     setFromParams();
   }, [params.coalitionId])
-  if(message) return <div>{message}</div>;
-  if(!selectedCoalition) return <div>Loading...</div>;
+  if (message) return <div>{message}</div>;
+  if (!selectedCoalition) return <div>Loading...</div>;
   return (
-    <Coalition selectedCoalition={selectedCoalition} />  
+    <CoalitionWithContext selectedCoalition={selectedCoalition} coalitionId={coalitionId} />
   )
 }
 
