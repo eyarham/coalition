@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import { CoalitionContext } from '../coalition/CoalitionContextProvider';
 import { remove } from '../_common/membershipApi';
 
 
-
-const Leave = ({ openCoalition }) => {
+const Leave = () => {
+  const coalitionContext = useContext(CoalitionContext);
+  const { coalition } = coalitionContext;
   const [showConfirm, setShowConfirm] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const navigate = useNavigate();
@@ -13,7 +15,7 @@ const Leave = ({ openCoalition }) => {
     if (!showConfirm) { setShowConfirm(true); }
     else {
       try {
-        await remove(openCoalition.id);
+        await remove(coalition.id);
         navigate("/");
       }
       catch (e) {
@@ -23,7 +25,7 @@ const Leave = ({ openCoalition }) => {
   }
   return (
     <div>
-      <input type="button" onClick={onClickLeave} value={"Leave " + openCoalition.data().name}></input>
+      <input type="button" onClick={onClickLeave} value={"Leave " + coalition.data().name}></input>
       {showConfirm && <div>click again to confirm</div>}
       <div>
         {errorMessage}

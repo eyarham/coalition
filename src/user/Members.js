@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { CoalitionContext } from '../coalition/CoalitionContextProvider';
 import { getByCoalitionId } from './api';
 import Member from './Member';
 import "./user.css";
-const Members = ({ coalitionId }) => {
+
+const Members = () => {
+  const coalitionContext = useContext(CoalitionContext);
+  const { coalition } = coalitionContext;
   const [members, setMembers] = useState();
   useEffect(() => {
     const getData = async () => {
-      const users = await getByCoalitionId(coalitionId);
+      const users = await getByCoalitionId(coalition.id);
       setMembers(users);
     }
     getData();
-  }, [coalitionId])
+  }, [coalition.id])
   return (
     <div>
       <div>Member number: {members && members.length}</div>

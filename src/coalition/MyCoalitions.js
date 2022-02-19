@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { get } from './api';
 
-const MyCoalitions = ({ isDirty, setIsDirty, setSelectedCoalition }) => {
+const MyCoalitions = ({ isDirty, setIsDirty, setSelectedCoalition, setCoalitionId }) => {
   const [coalitions, setCoalitions] = useState();
   const getCoalitionData = async () => {
     const coalitions = await get();
@@ -20,6 +20,7 @@ const MyCoalitions = ({ isDirty, setIsDirty, setSelectedCoalition }) => {
       {coalitions && coalitions.map((coalition, i) => {
         const onSelectCoalition = (e) => {
           setSelectedCoalition(coalition);
+          setCoalitionId(coalition.id);
         }
         return (
           <div key={i}>

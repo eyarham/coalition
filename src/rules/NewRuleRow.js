@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { CoalitionContext } from '../coalition/Coalition';
+import { CoalitionContext } from '../coalition/CoalitionContextProvider';
 import { create } from './api';
 
 const NewRuleRow = () => {

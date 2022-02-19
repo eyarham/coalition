@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { CoalitionContext } from '../coalition/Coalition';
+import React, { useContext, useEffect, useState } from 'react';
+import { CoalitionContext } from '../coalition/CoalitionContextProvider';
 
 const Member = ({ member }) => {
   const coalitionContext = useContext(CoalitionContext);
   const [isVisible, setIsVisible] = useState(false);
   const { displayName, pronouns } = member;
-  useEffect(()=>{
+  useEffect(() => {
     if (coalitionContext && coalitionContext.rules) {
       const visibleRuleArray = coalitionContext.rules.filter(r =>
         r.data().name === "NamesVisible");
@@ -17,10 +17,10 @@ const Member = ({ member }) => {
         setIsVisible(false);
     }
 
-  },[coalitionContext]);
-  
+  }, [coalitionContext]);
+
   if (!isVisible) {
-   return <div>anonymous pangolin</div>
+    return <div>anonymous pangolin</div>
   }
   if (isVisible) {
     return (

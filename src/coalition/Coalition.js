@@ -81,6 +81,6 @@ const Coalition = ({ selectedCoalition }) => {
     </CoalitionContext.Provider>
   )
 }
-export { CoalitionContext };
+//export { CoalitionContext };
 
 export default Coalition;

@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
-import petitionTypes from './petitionTypes';
+import React, { useContext, useState } from 'react';
+import { CoalitionContext } from '../coalition/CoalitionContextProvider';
 import { create2 } from './api';
 import NewPetitionForm from './NewPetitionForm';
+import petitionTypes from './petitionTypes';
 
-const NewPetition = ({ coalitionId }) => {
+const NewPetition = () => {
+  const coalitionContext = useContext(CoalitionContext);
+  const { coalition } = coalitionContext;
   const [message, setMessage] = useState("");
   const [petitionType, setPetitionType] = useState("0");
   const [petitionData, setPetitionData] = useState();
 
   const onPetitionSubmit = async e => {
     e.preventDefault();
-    await create2(coalitionId, petitionType, petitionData);
+    await create2(coalition.id, petitionType, petitionData);
     setMessage("Created Successfully");
   }
   const onPetitionTypeChange = e => {
