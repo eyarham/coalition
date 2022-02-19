@@ -1,0 +1,15 @@
+.user-name {
+  font-size: 0.8em;
+  text-align: left;
+}
+
+.message-text {
+  text-align: left;
+  padding: 5px;
+}
+
+.message-box {
+  border: 1px solid black;
+  margin: 5px;
+  width: 200px;
+}

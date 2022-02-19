@@ -1,5 +1,6 @@
 import React from 'react';
 import InviteLink from '../invite/InviteLink';
+import Messages from '../message/Messages';
 import NewPetition from '../petition/NewPetition';
 import Petitions from '../petition/Petitions';
 import Rules from '../rules/Rules';
@@ -23,6 +24,7 @@ const CoalitionWithContext = ({ coalitionId }) => {
         <CoalitionLink />
         <ExpandBox headerText="Members"><Members /></ExpandBox>
         <ExpandBox headerText="Charter"><Charter /></ExpandBox>
+        <ExpandBox headerText="Messages"><Messages /></ExpandBox>
         <ExpandBox headerText="Rules"><Rules /></ExpandBox>
         <ExpandBox headerText="Invite"><InviteLink /></ExpandBox>
         <ExpandBox headerText="New Petition"><NewPetition /></ExpandBox>

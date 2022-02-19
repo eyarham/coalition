@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { CoalitionContext } from '../coalition/CoalitionContextProvider';
 import { getByCoalitionId } from './api';
-import Member from './Member';
 import "./user.css";
+import UserName from './UserName';
 
 const Members = () => {
   const coalitionContext = useContext(CoalitionContext);
@@ -22,7 +22,7 @@ const Members = () => {
         if (m) {
           return (
             <div key={i}>
-              <Member member={m.data()} />
+              <UserName userId={m.id} />
             </div>);
         }
         else return <div key={i}>No info</div>
