@@ -9,6 +9,8 @@ const Account = () => {
   const [pronouns, setPronouns] = useState('');
   const [showUpdateEmail, setShowUpdateEmail] = useState(false);
   const [newEmail, setNewEmail] = useState('');
+  const [showCredentialReq, setShowCredentialReq] = useState(false);
+  const [pw, setpw] = useState('');
   useEffect(() => {
     const effectFunc = async () => {
       const account = await get();
@@ -53,10 +55,25 @@ const Account = () => {
   const revealEmailUpdate = e => {
     setShowUpdateEmail(!showUpdateEmail);
   }
+  const onEnterPw = e => {
+    setpw(e.target.value);
+  }  
   const onSubmitNewEmail = async e => {
     //TODO: create check for recent sign-in and prompt for credentials if needed
     // const credential = promptForCredentials();
-    await updateUserEmail(newEmail);
+
+    const response = await updateUserEmail(newEmail, pw);
+    switch (response.valid) {
+      case false:
+        alert(response.message);
+        break;
+      case null:
+        setShowCredentialReq(true);
+        break;
+      case true:
+        alert("success");
+    }
+
   }
   //HTML
   if (!selectedAccount) return <div>Loading...</div>;
@@ -78,6 +95,13 @@ const Account = () => {
           <label>Enter new email</label>
           <input type="text" value={newEmail} onChange={onEnterNewEmail}></input>
           <input type="submit" value="Confirm"></input>
+          {showCredentialReq && (<div>
+            <label>Confirm password to continue</label>
+            <div>
+              <input type="text" value={pw} onChange={onEnterPw}></input>
+            </div>
+          </div>)
+          }
         </div>)
         }
       </form>
