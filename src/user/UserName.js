@@ -1,20 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { getUserName, getUserPronouns } from './api';
+import React, { useContext, useEffect, useState } from 'react';
+import { CoalitionContext } from '../coalition/CoalitionContextProvider';
+import { getUserNameSub, getUserPronouns } from './api';
 
 const UserName = ({ userId }) => {
+  const coalitionContext = useContext(CoalitionContext);
+  const { coalition } = coalitionContext;
   const [name, setName] = useState();
   const [pronouns, setPronouns] = useState();
   useEffect(() => {
     const effect = async () => {
       if (userId) {
-        const user = await getUserName(userId);
-        setName(user);
         const pronounResponse = await getUserPronouns(userId);
         setPronouns(pronounResponse);
       }
     }
     effect();
   }, [userId])
+  useEffect(() => {
+    const effect = async () => {
+      if (userId) {
+        return getUserNameSub(userId, coalition.id, user => {
+          setName(user);
+        });
+      }
+    }
+    effect();
+  }, [userId, coalition.id])
 
   return (
     <span>

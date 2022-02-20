@@ -23,6 +23,12 @@ const api = (collectionString) => {
     const docRef = getDocRef(id);
     return await firebase.getDoc(docRef);
   }
+  const getByIdSub = async (id, callback) => {    
+    const unsub = onSnapshot(getDocRef(id), (docSnapshot) => {
+      callback(docSnapshot);
+    });
+    return unsub;
+  }
 
   const createDoc = async doc => {
     const docToAdd = {
@@ -55,7 +61,7 @@ const api = (collectionString) => {
     });
     return unsub;
   }
-  return { getCurrentUser, createDoc, getDocRef, getCollection, getById, set, deleteDocument, getByCoalitionId, getByCoalitionIdSub };
+  return { getCurrentUser, createDoc, getDocRef, getCollection, getById, set, deleteDocument, getByCoalitionId, getByCoalitionIdSub, getByIdSub };
 }
 export default api;
 

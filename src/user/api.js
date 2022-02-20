@@ -1,9 +1,10 @@
 import { updateEmail } from "firebase/auth";
 import { addDoc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { checkRule, checkRuleSub } from "../rules/api";
 import api from "../_common/api";
 import { getAllByCoalitionId } from "../_common/membershipApi";
 
-const { getCurrentUser, getCollection, set, getById } = api("users");
+const { getCurrentUser, getCollection, set, getById, getByIdSub } = api("users");
 
 const create = async (authId) => {
   var newUserData = {
@@ -51,18 +52,36 @@ const updateUserEmail = async (newEmail) => {
   await updateEmail(user, newEmail);
 }
 
-const getUserName = async (userId) => {
+const getUserName = async (userId, coalitionId) => {
   if (!userId) return;
-  const user = await getById(userId);
-  const userName = user.data().displayName
-  return userName;
+  const showUsersRule = await checkRule(coalitionId, "ShowUsers", "true");
+  if (showUsersRule) {
+    const user = await getById(userId);
+    const userName = user.data().displayName
+    return userName;
+  }
+  return "Anonymous";
+}
+const getUserNameSub = async (userId, coalitionId, callback) => {
+
+  if (!userId) return;
+
+  return checkRuleSub(coalitionId, "ShowUsers", "true", async (showUsersRule) => {
+    if (showUsersRule) {
+      return getByIdSub(userId, (user)=>{
+      const userName = user.data().displayName
+      callback(userName);
+      })
+    }
+    callback("Anonymous");
+  });
 }
 
 const getUserPronouns = async (userId) => {
   if (!userId) return;
   const user = await getById(userId);
-  return user.data().pronouns;  
+  return user.data().pronouns;
 }
 
-export { create, get, set, getByCoalitionId, updateUserEmail, getUserName, getCurrentUserId ,getUserPronouns};
+export { create, get, set, getByCoalitionId, updateUserEmail, getUserName, getCurrentUserId, getUserPronouns,getUserNameSub };
 
