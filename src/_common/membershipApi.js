@@ -1,5 +1,4 @@
 import { addDoc, deleteDoc, getDocs, query, where } from "firebase/firestore";
-import { checkRule } from "../rules/api";
 import { getCurrentUserId } from "../user/api";
 import api from "./api";
 const { getDocRef, getCollection } = api("memberships");
@@ -35,17 +34,12 @@ const getAllByCoalitionIdInternal = async (coalitionId) => {
   return membershipQuerySnapshot.docs;
 }
 const getAllByCoalitionId = async (coalitionId) => {
-  if (await checkRule(coalitionId, "ShowUsers", "true") === true) {
     return await getAllByCoalitionIdInternal(coalitionId);
-  }
 }
 
 const getMemberCount = async (coalitionId) => {
-  if (await checkRule(coalitionId, "ShowUsers", "true")) {
     const allMembers = await getAllByCoalitionId(coalitionId);
     return allMembers.length;
-  }
-  return -1;
 }
 
 const getIsOnlyUser = async (coalitionId) => {

@@ -16,7 +16,7 @@ const MyCoalitions = ({ isDirty, setIsDirty, setSelectedCoalition, setCoalitionI
 
   return (
     <div>
-      My coalitions
+      <h2>My coalitions</h2>      
       {coalitions && coalitions.map((coalition, i) => {
         const onSelectCoalition = (e) => {
           setSelectedCoalition(coalition);

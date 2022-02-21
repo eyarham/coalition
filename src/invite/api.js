@@ -1,8 +1,9 @@
 import { addDoc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { getCurrentUserId } from "../user/api";
 import api, { getOriginUrl } from "../_common/api";
 import { add as addMembership, getByCoalitionId } from '../_common/membershipApi';
 
-const { getCurrentUser, getDocRef, getCollection } = api("invites");
+const {  getDocRef, getCollection } = api("invites");
 const sendInvite = (inviteEmail) => {
 
 }
@@ -17,10 +18,10 @@ const create = async (coalitionId, memberId) => {
 }
 
 const getByCoalition = async (coalitionId) => {
-  const q2 = query(getCollection(), where("memberId", "==", getCurrentUser().uid), where("coalitionId", "==", coalitionId));
+  const q2 = query(getCollection(), where("memberId", "==", await getCurrentUserId()), where("coalitionId", "==", coalitionId));
   const membershipQuerySnapshot = await getDocs(q2);
   if (membershipQuerySnapshot.empty) {
-    const newDocRef = await create(coalitionId, getCurrentUser().uid);
+    const newDocRef = await create(coalitionId, await getCurrentUserId());
     return newDocRef;
   }
   else {
@@ -44,7 +45,7 @@ const accept = async (inviteId) => {
 //
   }
   else {
-    await addMembership(coalitionId, getCurrentUser().uid);
+    await addMembership(coalitionId, await getCurrentUserId());
   }
 }
 

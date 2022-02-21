@@ -12,6 +12,10 @@ const create = async (coalitionId, text) => {
   await createDoc(newRule);
 }
 
+const postedByCurrentUser = async (postedBy) => {
+  const userId = await getCurrentUserId();
+  return userId === postedBy;
+}
 
-export { create, getByCoalitionIdSub };
+export { create, getByCoalitionIdSub, postedByCurrentUser };
 

@@ -1,6 +1,7 @@
 .user-name {
   font-size: 0.8em;
   text-align: left;
+  margin-left: 4px;
 }
 
 .message-text {
@@ -12,4 +13,20 @@
   border: 1px solid black;
   margin: 5px;
   width: 200px;
+}
+
+.delete-icon {
+  float: right;
+}
+.reply-button {
+  float: right;
+}
+.message-footer {
+  height: 22px;
+}
+.message-date {
+  text-align: left;
+  float: left;
+  font-size: 0.6em;
+  margin-left: 4px;
 }

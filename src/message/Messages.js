@@ -10,7 +10,12 @@ const Messages = () => {
   const { coalition } = coalitionContext;
   const [messages, setMessages] = useState();
   useEffect(() =>
-    getByCoalitionIdSub(coalition.id, setMessages),
+    getByCoalitionIdSub(coalition.id,
+      coalitionMessages => {
+        const sortedMessages = coalitionMessages.sort((a, b) => b.data().createdDate - a.data().createdDate);
+        setMessages(sortedMessages);
+      }
+    ),
     [coalition.id]);
   return (
     <div>

@@ -5,14 +5,14 @@ const { getByCoalitionId, getByCoalitionIdQuery, createDoc, set, getByCoalitionI
 const getByName = async (coalitionId, name) => {
   const allByCoalition = await getByCoalitionId(coalitionId);
   const filteredRules = allByCoalition.filter(c => c.data().name === name);
-  if (filteredRules.length === 1)
+  if (filteredRules.length > 0)
     return filteredRules[0];
 }
 
 const getByNameSub = async (coalitionId, name, callback) => {
   return getByCoalitionIdSub(coalitionId, async (allByCoalition) => {
     const filteredRules = allByCoalition.filter(c => c.data().name === name);
-    if (filteredRules.length === 1)
+    if (filteredRules.length > 0)
       callback(filteredRules[0]);
   });
 }
@@ -42,11 +42,16 @@ const checkRule = async (coalitionId, name, value) => {
 }
 
 const checkRuleSub = async (coalitionId, name, value, callback) => {
-  return getByNameSub(coalitionId, name, (ruleToCheck)=>{
+  return getByNameSub(coalitionId, name, (ruleToCheck) => {
     if (ruleToCheck) {
       callback(ruleToCheck.data().value === value);
     }
   });
 }
 
-export { getByCoalitionId, create, updateRule, getByCoalitionIdQuery, getByCoalitionIdSub, checkRule, getByNameSub, checkRuleSub };
+const initializeRules = async (coalitionId, isPublic, showUserNames) => {
+  await create(coalitionId, "Public", isPublic);
+  await create(coalitionId, "ShowUserNames", showUserNames);
+}
+
+export { getByCoalitionId, create, updateRule, getByCoalitionIdQuery, getByCoalitionIdSub, checkRule, getByNameSub, checkRuleSub, initializeRules };
