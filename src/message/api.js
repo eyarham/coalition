@@ -1,7 +1,7 @@
 import { getCurrentUserId } from "../user/api";
 import api from "../_common/api";
 
-const { createDoc, getByCoalitionIdSub } = api("messages");
+const { createDoc, getByCoalitionIdSub, deleteDocument } = api("messages");
 
 const create = async (coalitionId, text) => {
   const newRule = {
@@ -17,5 +17,5 @@ const postedByCurrentUser = async (postedBy) => {
   return userId === postedBy;
 }
 
-export { create, getByCoalitionIdSub, postedByCurrentUser };
+export { create, getByCoalitionIdSub, postedByCurrentUser, deleteDocument };
 

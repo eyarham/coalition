@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import UserName from '../user/UserName';
-import { postedByCurrentUser } from './api';
+import { deleteDocument, postedByCurrentUser } from './api';
 import "./style.css";
 
 const Message = ({ message }) => {
@@ -28,8 +28,8 @@ const Message = ({ message }) => {
   const onReplyButtonClick = e => {
 
   }
-  const onDeleteClick = e => {
-
+  const onDeleteClick = async e => {
+    await deleteDocument(message.id);
   }
   return (
     <div className='message-box'>
