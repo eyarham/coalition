@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { get, set, updateUserEmail } from './api';
 
 
@@ -59,7 +59,7 @@ const Account = () => {
   }
   const onEnterPw = e => {
     setpw(e.target.value);
-  }  
+  }
   const onSubmitNewEmail = async e => {
     //TODO: create check for recent sign-in and prompt for credentials if needed
     // const credential = promptForCredentials();
