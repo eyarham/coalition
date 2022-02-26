@@ -74,6 +74,10 @@ const Account = () => {
         break;
       case true:
         alert("success");
+        break;
+      default:
+        alert(response.message);
+        break;
     }
 
   }
