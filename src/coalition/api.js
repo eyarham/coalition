@@ -15,7 +15,7 @@ const write = async (name, isPublic, showUserNames) => {
     }
     const docRef = await addDoc(getCollection(), newCoalition);
     console.log("Document written with ID: ", docRef.id);
-    await initializeRules(docRef.id,isPublic, showUserNames);
+    await initializeRules(docRef.id, isPublic, showUserNames);
     await addMember(docRef.id, await getCurrentUserId());
   } catch (e) {
     console.error("Error adding document: ", e);
@@ -71,12 +71,11 @@ const getById = async (id) => {
 
 const getByIdForUser = async (id) => {
   const membership = await getByCoalitionId(id);
-  if (membership) {
-    return await getById(id);
-  }
-  else {
-    throw new Error("Coalition does not exist or user is not a member.");
-  }
+  const coalition = await getById(id);
+  if (membership) return coalition;
+  const isPublic = await isCoalitionPublic(coalition);
+  if (isPublic) return coalition
+  throw new Error("Coalition does not exist or user is not a member.");
 }
 
 const getCoalitionLink = (coalitionId) => {
@@ -123,9 +122,10 @@ const isCoalitionPublic = async (coalition) => {
     const publicRuleArray = rules.filter(r => r.data().name === "Public");
     if (publicRuleArray && publicRuleArray.length === 1) {
       const publicRule = publicRuleArray[0];
-      if (publicRule.data().value === "true") { return coalition };
+      if (publicRule.data().value === true) { return true };
     }
   }
+  return false;
 }
 
 const getPublic = async () => {
@@ -142,5 +142,11 @@ const getPublic = async () => {
   return docsResult;
 }
 
-export { write, get, getAll, getByIdForUser, setCoalition, getCoalitionLink, getCoalitionRedirect, getVotesNeeded, deleteDocument, getByInviteId, updateCharter, getPublic };
+const joinPublic = async (coalition) => {
+  const isPublic = await isCoalitionPublic(coalition);
+  if (isPublic === true) {
+    await addMember(coalition.id, await getCurrentUserId());
+  }
+}
 
+export { write, get, getAll, getByIdForUser, setCoalition, getCoalitionLink, getCoalitionRedirect, getVotesNeeded, deleteDocument, getByInviteId, updateCharter, getPublic, joinPublic };

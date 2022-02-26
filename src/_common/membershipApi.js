@@ -34,12 +34,12 @@ const getAllByCoalitionIdInternal = async (coalitionId) => {
   return membershipQuerySnapshot.docs;
 }
 const getAllByCoalitionId = async (coalitionId) => {
-    return await getAllByCoalitionIdInternal(coalitionId);
+  return await getAllByCoalitionIdInternal(coalitionId);
 }
 
 const getMemberCount = async (coalitionId) => {
-    const allMembers = await getAllByCoalitionId(coalitionId);
-    return allMembers.length;
+  const allMembers = await getAllByCoalitionId(coalitionId);
+  return allMembers.length;
 }
 
 const getIsOnlyUser = async (coalitionId) => {
@@ -61,5 +61,14 @@ const remove = async (coalitionId) => {
   }
 }
 
-export { add, getCoalitionIdsForCurrentUser, remove, getAllByCoalitionId, getMemberCount, getByCoalitionId, getIsOnlyUser };
+const getUserIsMember = async (coalitionId) => {
+  const currentUserId = await getCurrentUserId();
+  const q2 = query(getCollection(), where("memberId", "==", currentUserId), where("coalitionId", "==", coalitionId));
+  const snap = await getDocs(q2);
+  if (snap && snap.docs && snap.docs.length > 0) {
+    return true
+  }
+  return false;
+}
 
+export { add, getCoalitionIdsForCurrentUser, remove, getAllByCoalitionId, getMemberCount, getByCoalitionId, getIsOnlyUser, getUserIsMember };
