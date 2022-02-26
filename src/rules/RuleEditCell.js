@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { CoalitionContext } from '../coalition/CoalitionContextProvider';
 import { updateRule } from './api';
 
@@ -9,6 +9,20 @@ const RuleEditCell = ({ r }) => {
   const [isInEditMode, setIsInEditMode] = useState(false);
   const [message, setMessage] = useState("");
   const [cellValue, setCellValue] = useState(value);
+  const [displayValue, setDisplayValue] = useState('');
+  useEffect(() => {
+    if (value === false) {
+      setDisplayValue("false");
+    }
+    else if (value === true) {
+
+      setDisplayValue("true");
+    }
+    else {
+      setDisplayValue(value);
+    }
+  }, [value])
+
   const onCellClick = e => {
     setIsInEditMode(true);
   }
@@ -17,7 +31,15 @@ const RuleEditCell = ({ r }) => {
   }
   const onFormSubmit = async e => {
     e.preventDefault();
-    await updateRule(coalition.id, name, cellValue);
+    if (cellValue === "false") {
+      await updateRule(coalition.id, name, false);
+    }
+    else if (cellValue === "true") {
+      await updateRule(coalition.id, name, true);
+    }
+    else {
+      await updateRule(coalition.id, name, cellValue);
+    }
     setMessage("Save Successful");
     setIsInEditMode(false);
   }
@@ -32,7 +54,7 @@ const RuleEditCell = ({ r }) => {
   }
   return (
     <td className='rule-value-col' onClick={onCellClick} onBlur={onCellBlur} >
-      {!isInEditMode && (r.data().value)}
+      {!isInEditMode && (displayValue)}
       {isInEditMode &&
         <form onSubmit={onFormSubmit}>
           <input value={cellValue} onChange={onCellValueChange}></input>

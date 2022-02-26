@@ -1,22 +1,21 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { getByCoalitionIdSub } from '../rules/api';
-import api from '../_common/api';
+import { getCurrentUserId } from '../user/api';
 import { getIsOnlyUser } from '../_common/membershipApi';
 import { getByIdForUser } from './api';
 
 const CoalitionContext = createContext();
 const CoalitionContextProvider = ({ children, coalitionId }) => {
-  const [selectedCoalition, setSelectedCoalition] = useState();
-  const [openCoalition, setOpenCoalition] = useState(false);
+  const [openCoalition, setOpenCoalition] = useState();
   const [isOnlyUser, setIsOnlyUser] = useState();
-  const [showUsers, setShowUsers] = useState(false);
   const [rules, setRules] = useState();
-  const [message, setMessage] = useState()
+  const [message, setMessage] = useState();
+  const [isCreator, setIsCreatorState] = useState(false);
   useEffect(() => {
     const setFromParams = async () => {
       try {
         const coalition = await getByIdForUser(coalitionId);
-        setSelectedCoalition(coalition);
+        setOpenCoalition(coalition);
       }
       catch (e) {
         setMessage(e.message);
@@ -31,27 +30,21 @@ const CoalitionContextProvider = ({ children, coalitionId }) => {
     }
     effect();
   }, [coalitionId]);
-  useEffect(() => {
-    const isShowUsers = () => {
-      if (rules && rules.length > 0) {
-        const value = rules.filter(r => r.data().name === "ShowUsers")[0].data().value;
-        return value === "true";
-      }
-    }
-    setShowUsers(isShowUsers);
-  }, [rules])
+
   useEffect(() => {
     if (coalitionId)
       return getByCoalitionIdSub(coalitionId, rulesResult => setRules(rulesResult));
   }, [coalitionId])
-  const isCreator = openCoalition && openCoalition.data().createdBy === api().getCurrentUser().uid;
-  const setActiveCoalition = async (coalition) => {
-    setOpenCoalition(coalition);
-  }
+  //const isCreator = openCoalition && openCoalition.data().createdBy === await getCurrentUserId();
   useEffect(() => {
-    const setFromProps = async () => setActiveCoalition(selectedCoalition);
-    setFromProps();
-  }, [selectedCoalition]);
+    const effect = async () => {
+      const isCreator = openCoalition && openCoalition.data().createdBy === await getCurrentUserId();
+
+      setIsCreatorState(isCreator);
+    }
+    effect();
+  }, [openCoalition])
+
   if (isOnlyUser === undefined
     || openCoalition === undefined
     || rules === undefined
@@ -59,9 +52,9 @@ const CoalitionContextProvider = ({ children, coalitionId }) => {
     return <div>loading...</div>
   }
   return (
-    <CoalitionContext.Provider value={{ coalition: openCoalition, isCreator, isOnlyUser, rules, showUsers }}>
+    <CoalitionContext.Provider value={{ coalition: openCoalition, isCreator, isOnlyUser, rules }}>
       {children}
-      <div>{message}</div>
+      {message && <div>{message}</div>}
     </CoalitionContext.Provider>
   )
 }

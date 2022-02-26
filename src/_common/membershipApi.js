@@ -1,7 +1,7 @@
 import { addDoc, deleteDoc, getDocs, query, where } from "firebase/firestore";
-import { checkRule } from "../rules/api";
+import { getCurrentUserId } from "../user/api";
 import api from "./api";
-const { getCurrentUser, getDocRef, getCollection } = api("memberships");
+const { getDocRef, getCollection } = api("memberships");
 const add = async (coalitionId, memberId) => {
 
   var newMembership = {
@@ -12,7 +12,8 @@ const add = async (coalitionId, memberId) => {
 }
 
 const getCoalitionIdsForCurrentUser = async () => {
-  const q2 = query(getCollection(), where("memberId", "==", getCurrentUser().uid));
+  const currentUserId = await getCurrentUserId();
+  const q2 = query(getCollection(), where("memberId", "==", currentUserId));
   const membershipQuerySnapshot = await getDocs(q2);
   var coalitionIds = [];
   membershipQuerySnapshot.forEach((doc) => {
@@ -22,7 +23,7 @@ const getCoalitionIdsForCurrentUser = async () => {
 }
 
 const getByCoalitionId = async (coalitionId) => {
-  const q2 = query(getCollection(), where("memberId", "==", getCurrentUser().uid), where("coalitionId", "==", coalitionId));
+  const q2 = query(getCollection(), where("memberId", "==", await getCurrentUserId()), where("coalitionId", "==", coalitionId));
   const membershipQuerySnapshot = await getDocs(q2);
   return membershipQuerySnapshot.docs[0];
 }
@@ -33,22 +34,17 @@ const getAllByCoalitionIdInternal = async (coalitionId) => {
   return membershipQuerySnapshot.docs;
 }
 const getAllByCoalitionId = async (coalitionId) => {
-  if (await checkRule(coalitionId, "ShowUsers", "true") === true) {
     return await getAllByCoalitionIdInternal(coalitionId);
-  }
 }
 
 const getMemberCount = async (coalitionId) => {
-  if (await checkRule(coalitionId, "ShowUsers", "true")) {
     const allMembers = await getAllByCoalitionId(coalitionId);
     return allMembers.length;
-  }
-  return -1;
 }
 
 const getIsOnlyUser = async (coalitionId) => {
   const members = await getAllByCoalitionIdInternal(coalitionId);
-  if (members.length === 1 && members[0].data() && members[0].data().memberId === getCurrentUser().uid) {
+  if (members.length === 1 && members[0].data() && members[0].data().memberId === await getCurrentUserId()) {
     return true;
   }
   return false;
