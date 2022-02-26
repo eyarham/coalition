@@ -22,6 +22,12 @@ const get = async () => {
   return await getByAuthId(user.uid);
 }
 
+const getLoggedInUser = async () => {
+  const authUser = getCurrentUser();
+  const user = await getByAuthId(authUser.uid);
+  return user;
+}
+
 const getCurrentUserId = async () => {
   const authUser = getCurrentUser();
   const user = await getByAuthId(authUser.uid);
@@ -89,9 +95,9 @@ const getUserNameSub = async (userId, coalitionId, callback) => {
   if (!userId) return;
   return checkRuleSub(coalitionId, "ShowUserNames", true, async (showUsersRule) => {
     if (showUsersRule) {
-      return getByIdSub(userId, (user)=>{
-      const userName = user.data() && user.data().displayName
-      callback(userName);
+      return getByIdSub(userId, (user) => {
+        const userName = user.data() && user.data().displayName
+        callback(userName);
       })
     }
     callback("Anonymous");
@@ -104,5 +110,5 @@ const getUserPronouns = async (userId) => {
   return user.data() && user.data().pronouns;
 }
 
-export { create, get, set, getByCoalitionId, updateUserEmail, getUserName, getCurrentUserId, getUserPronouns,getUserNameSub };
+export { create, get, set, getByCoalitionId, updateUserEmail, getUserName, getCurrentUserId, getUserPronouns, getUserNameSub, getLoggedInUser };
 

@@ -1,20 +1,22 @@
 import React from 'react';
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import AuthWrapper from '../auth/AuthWrapper';
 import FirebaseApp from '../firebase/FirebaseApp';
 import HeaderLogo from './HeaderLogo';
+import MainMenu from './MainMenu';
 
 const Layout = () => {
   return (
     <div className="App">
       <header className="App-header">
         <HeaderLogo />
-        <span className="browse-link"><Link to="/browse">browse coalitions</Link></span>
-        <span className="code-link"><a href="https://github.com/eyarham/coalition">code</a></span>
       </header>
       <FirebaseApp>
         <AuthWrapper>
-          <Outlet />
+          <div>
+            <MainMenu />
+            <Outlet />
+          </div>
         </AuthWrapper>
       </FirebaseApp>
     </div>
