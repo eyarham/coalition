@@ -1,4 +1,4 @@
-import { updateEmail } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, updateEmail } from "firebase/auth";
 import { addDoc, getDoc, getDocs, query, where } from "firebase/firestore";
 import { checkRule, checkRuleSub } from "../rules/api";
 import api from "../_common/api";
@@ -51,11 +51,34 @@ const getByCoalitionId = async (coalitionId) => {
   }
 }
 
-const updateUserEmail = async (newEmail) => {
+const updateUserEmail = async (newEmail, pw) => {
   const user = getCurrentUser();
-  //TODO: create check for recent sign-in and prompt for credentials if needed
-  // const credential = promptForCredentials();
-  await updateEmail(user, newEmail);
+  if (pw != "") {
+    await signInWithEmailAndPassword(getAuth(), user.email, pw);
+  }
+  try {
+    await updateEmail(user, newEmail);
+    return { valid: true };
+  } catch (e) {
+    switch (e.code) {
+      case 'auth/invalid-email':
+        return {
+          valid: false, message: "Please enter a valid email address."
+        }
+      case 'auth/email-already-in-use':
+        return {
+          valid: false, message: "This email is already in use. \nIf you did not create an account with this email, please contact the site administrator."
+        }
+      case 'auth/requires-recent-login':
+        return {
+          valid: null
+        }
+      default:
+        return {
+          success: false, message: e.code
+        }
+    }
+  }
 }
 
 const getUserName = async (userId, coalitionId) => {
@@ -88,4 +111,3 @@ const getUserPronouns = async (userId) => {
 }
 
 export { create, get, set, getByCoalitionId, updateUserEmail, getUserName, getCurrentUserId, getUserPronouns, getUserNameSub, getLoggedInUser };
-
