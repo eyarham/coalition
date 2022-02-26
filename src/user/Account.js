@@ -9,6 +9,10 @@ const Account = () => {
   const [pronouns, setPronouns] = useState('');
   const [showUpdateEmail, setShowUpdateEmail] = useState(false);
   const [newEmail, setNewEmail] = useState('');
+  const [showCredentialReq, setShowCredentialReq] = useState(false);
+  const [pw, setpw] = useState('');
+  // const newEmailRef = useRef();
+  // const pwRef = useRef();
   useEffect(() => {
     const effectFunc = async () => {
       const account = await get();
@@ -51,12 +55,27 @@ const Account = () => {
     setMessage("");
   }
   const revealEmailUpdate = e => {
-    setShowUpdateEmail(!showUpdateEmail);
+    setShowUpdateEmail(!showUpdateEmail)
+  }
+  const onEnterPw = e => {
+    setpw(e.target.value);
   }
   const onSubmitNewEmail = async e => {
     //TODO: create check for recent sign-in and prompt for credentials if needed
     // const credential = promptForCredentials();
-    await updateUserEmail(newEmail);
+
+    const response = await updateUserEmail(newEmail, pw);
+    switch (response.valid) {
+      case false:
+        alert(response.message);
+        break;
+      case null:
+        setShowCredentialReq(true)
+        break;
+      case true:
+        alert("success");
+    }
+
   }
   //HTML
   if (!selectedAccount) return <div>Loading...</div>;
@@ -76,8 +95,16 @@ const Account = () => {
         <input type="button" onClick={revealEmailUpdate} value="Change account email"></input>
         {showUpdateEmail && (<div>
           <label>Enter new email</label>
-          <input type="text" value={newEmail} onChange={onEnterNewEmail}></input>
-          <input type="submit" value="Confirm"></input>
+          <input autoFocus value={newEmail} onChange={onEnterNewEmail}></input>
+          <input type="submit" value="Submit"></input>
+          {showCredentialReq && (<div>
+            <label>Confirm password to continue</label>
+            <div>
+              <input autoFocus type="password" value={pw} onChange={onEnterPw}></input>
+              <input type="submit" value="Confirm"></input>
+            </div>
+          </div>)
+          }
         </div>)
         }
       </form>

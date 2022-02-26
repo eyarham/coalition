@@ -14,7 +14,7 @@ const Members = () => {
       setMembers(users);
     }
     getData();
-  }, [coalition.id])
+  }, [coalition.id]);
   return (
     <div>
       <div>Member number: {members && members.length}</div>
