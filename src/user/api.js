@@ -47,7 +47,6 @@ const getByCoalitionId = async (coalitionId) => {
 
 const updateUserEmail = async (newEmail, pw) => {
   const user = getCurrentUser();
-  //Currently requires two loops but works???!
   if (pw != "") {
     await signInWithEmailAndPassword(getAuth(), user.email, pw);
   }

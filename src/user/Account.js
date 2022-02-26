@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { get, set, updateUserEmail } from './api';
 
 
@@ -11,6 +11,8 @@ const Account = () => {
   const [newEmail, setNewEmail] = useState('');
   const [showCredentialReq, setShowCredentialReq] = useState(false);
   const [pw, setpw] = useState('');
+  // const newEmailRef = useRef();
+  // const pwRef = useRef();
   useEffect(() => {
     const effectFunc = async () => {
       const account = await get();
@@ -53,7 +55,7 @@ const Account = () => {
     setMessage("");
   }
   const revealEmailUpdate = e => {
-    setShowUpdateEmail(!showUpdateEmail);
+    setShowUpdateEmail(!showUpdateEmail)
   }
   const onEnterPw = e => {
     setpw(e.target.value);
@@ -68,7 +70,7 @@ const Account = () => {
         alert(response.message);
         break;
       case null:
-        setShowCredentialReq(true);
+        setShowCredentialReq(true)
         break;
       case true:
         alert("success");
@@ -93,12 +95,13 @@ const Account = () => {
         <input type="button" onClick={revealEmailUpdate} value="Change account email"></input>
         {showUpdateEmail && (<div>
           <label>Enter new email</label>
-          <input type="text" value={newEmail} onChange={onEnterNewEmail}></input>
-          <input type="submit" value="Confirm"></input>
+          <input autoFocus value={newEmail} onChange={onEnterNewEmail}></input>
+          <input type="submit" value="Submit"></input>
           {showCredentialReq && (<div>
             <label>Confirm password to continue</label>
             <div>
-              <input type="text" value={pw} onChange={onEnterPw}></input>
+              <input autoFocus type="password" value={pw} onChange={onEnterPw}></input>
+              <input type="submit" value="Confirm"></input>
             </div>
           </div>)
           }
