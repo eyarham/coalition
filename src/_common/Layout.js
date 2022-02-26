@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import AuthWrapper from '../auth/AuthWrapper';
 import FirebaseApp from '../firebase/FirebaseApp';
 import HeaderLogo from './HeaderLogo';
@@ -14,7 +14,7 @@ const Layout = () => {
       <FirebaseApp>
         <AuthWrapper>
           <div>
-<MainMenu/>
+            <MainMenu />
             <Outlet />
           </div>
         </AuthWrapper>
