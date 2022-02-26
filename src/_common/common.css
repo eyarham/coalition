@@ -19,19 +19,33 @@
   padding: 5px;
 }
 
-.browse-link{
-float:left;
-margin: 0 auto;
-}
-
-.code-link{
-
-  float:left;
+.browse-link {
+  float: left;
   margin: 0 auto;
 }
 
 
-.header-logo{
+.header-logo {
   float: left;
   margin: 0;
+  text-align: left;
+}
+
+.nav-bar{
+  height: 30px;
+  margin: 5px;
+}
+
+.nav-bar span{
+  border: 1px black solid;
+  padding: 5px;
+  /* margin: 5px; */
+  float:left;
+  text-decoration-line: none;
+  text-decoration-color: black;
+}
+
+.code-link {
+  float: right !important;
+  margin: 0 auto;
 }
