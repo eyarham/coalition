@@ -20,6 +20,7 @@ const MainMenu = () => {
       {isAdmin &&
         <span><NavLink to="/Admin" className={isActive => isActive ? "active" : "inactive"}>Admin</NavLink></span>
       }
+      <span className="browse-link"><NavLink to="/rules">rules help</NavLink></span>
       <span className="code-link"><a href="https://github.com/eyarham/coalition" target="_blank" rel="noopener noreferrer">code</a></span>
     </div>
   )

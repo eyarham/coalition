@@ -14,12 +14,6 @@ const Vote = ({ petitionId }) => {
     await submitVote(petitionId, "no");
     await checkVotes(petitionId);
   }
-  const onSign = async e => {
-    
-    e.preventDefault();
-    await submitVote(petitionId, "sign");
-    await checkVotes(petitionId);
-  }
   useEffect(() => {
     const effect = async () => {
       const existingVote = await getByPetitionIdForUser(petitionId);
@@ -31,7 +25,6 @@ const Vote = ({ petitionId }) => {
     <div>
       <input type="button" value="yes" onClick={onVoteYes}></input>
       <input type="button" value="no" onClick={onVoteNo}></input>
-      <input type="button" value="Sign" onClick={onSign} ></input>
       Selection: {selectedVote && selectedVote.selection}
     </div>
   )

@@ -8,7 +8,7 @@ describe('<Router />', () =>{
     const wrapper = shallow(<Router />);
 
     const routes = wrapper.find('Route');
-    expect(routes.length).to.equal(7);
+    expect(routes.length).to.equal(8);
     expect(routes.at(0).prop('path')).to.equal('/');
     expect(routes.at(1).prop('path')).to.equal('/');
     expect(routes.at(2).prop('path')).to.equal('/invite');
@@ -16,5 +16,6 @@ describe('<Router />', () =>{
     expect(routes.at(4).prop('path')).to.equal('/coalition/:coalitionId');    
     expect(routes.at(5).prop('path')).to.equal('/browse');
     expect(routes.at(6).prop('path')).to.equal('/admin');
+    expect(routes.at(7).prop('path')).to.equal('/rules');
   });
 });

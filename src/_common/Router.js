@@ -5,6 +5,7 @@ import Browse from '../browse/Browse';
 import CoalitionPage from '../coalition/CoalitionPage';
 import CoalitionPanel from '../coalition/CoalitionPanel';
 import Invite from '../invite/Invite';
+import RulesPage from '../rules/RulesPage';
 import Account from '../user/Account';
 import Layout from './Layout';
 
@@ -18,6 +19,7 @@ const Router = () => {
         <Route path="/coalition/:coalitionId" element={<CoalitionPage />} />
         <Route path="/browse" element={<Browse />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/rules" element={<RulesPage />} />
       </Route>
     </Routes>
   )

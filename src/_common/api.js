@@ -19,11 +19,20 @@ const api = (collectionString) => {
     const db = firebase.getFirestore();
     return firebase.collection(db, collectionString);
   }
+
+  const getDocsSub = async (callback) => {
+    const coll = getCollection();
+    const q = query(coll);
+    const unsub = onSnapshot(q, snapshot => {
+      callback(snapshot);
+    });
+    return unsub;
+  }
   const getById = async id => {
     const docRef = getDocRef(id);
     return await firebase.getDoc(docRef);
   }
-  const getByIdSub = async (id, callback) => {    
+  const getByIdSub = async (id, callback) => {
     const unsub = onSnapshot(getDocRef(id), (docSnapshot) => {
       callback(docSnapshot);
     });
@@ -54,14 +63,14 @@ const api = (collectionString) => {
     return querySnapshot.docs;
   }
 
-  const getByCoalitionIdSub = (coalitionId, callback)=>{
+  const getByCoalitionIdSub = (coalitionId, callback) => {
     const q = query(getCollection(), where("coalitionId", "==", coalitionId));
     const unsub = onSnapshot(q, (querySnapshot) => {
       callback(querySnapshot.docs);
     });
     return unsub;
   }
-  return { getCurrentUser, createDoc, getDocRef, getCollection, getById, set, deleteDocument, getByCoalitionId, getByCoalitionIdSub, getByIdSub };
+  return { getCurrentUser, createDoc, getDocRef, getCollection, getById, set, deleteDocument, getByCoalitionId, getByCoalitionIdSub, getByIdSub, getDocsSub };
 }
 export default api;
 
