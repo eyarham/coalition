@@ -1,16 +1,23 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { getByCoalitionIdSub } from '../rules/api';
 import { getCurrentUserId } from '../user/api';
-import { getIsOnlyUser } from '../_common/membershipApi';
+import { UserContext } from '../user/UserContextProvider';
+import { getIsOnlyUser, getUserIsMemberSub } from '../_common/membershipApi';
 import { getByIdForUser } from './api';
 
 const CoalitionContext = createContext();
 const CoalitionContextProvider = ({ children, coalitionId }) => {
+  const userContext = useContext(UserContext);
+  const { user } = userContext;
   const [openCoalition, setOpenCoalition] = useState();
   const [isOnlyUser, setIsOnlyUser] = useState();
   const [rules, setRules] = useState();
   const [message, setMessage] = useState();
   const [isCreator, setIsCreatorState] = useState(false);
+  const [isMember, setIsMember] = useState(false);
+  useEffect(() => {
+    return getUserIsMemberSub(user.id, coalitionId, setIsMember)
+  }, [coalitionId, user.id])
   useEffect(() => {
     const setFromParams = async () => {
       try {
@@ -51,8 +58,12 @@ const CoalitionContextProvider = ({ children, coalitionId }) => {
   ) {
     return <div>loading...</div>
   }
+  const providerValue = {
+    coalition: openCoalition,
+    isCreator, isOnlyUser, rules, isMember
+  };
   return (
-    <CoalitionContext.Provider value={{ coalition: openCoalition, isCreator, isOnlyUser, rules }}>
+    <CoalitionContext.Provider value={providerValue}>
       {children}
       {message && <div>{message}</div>}
     </CoalitionContext.Provider>

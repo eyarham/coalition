@@ -1,5 +1,5 @@
 import { getAuth, signInWithEmailAndPassword, updateEmail } from "firebase/auth";
-import { addDoc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { addDoc, getDoc, getDocs, onSnapshot, query, where } from "firebase/firestore";
 import { checkRule, checkRuleSub } from "../rules/api";
 import api from "../_common/api";
 import { getAllByCoalitionId } from "../_common/membershipApi";
@@ -39,6 +39,20 @@ const getByAuthId = async (id) => {
   const membershipQuerySnapshot = await getDocs(q2);
   if (membershipQuerySnapshot.empty) return await getDoc(create(id));
   return membershipQuerySnapshot.docs[0];
+}
+const getByAuthIdSub = async (id, callback, onError) => {
+  const q = query(getCollection(), where("userId", "==", id));
+  // const membershipQuerySnapshot = await getDocs(q2);
+  // if (membershipQuerySnapshot.empty) return await getDoc(create(id));
+  //return membershipQuerySnapshot.docs[0];
+
+  const unsub = onSnapshot(q, snapshot => {
+    const user = snapshot.docs[0];
+    callback(user);
+  }, error => {
+    onError(error)
+  });
+  return unsub;
 }
 const getByCoalitionId = async (coalitionId) => {
   const memberships = await getAllByCoalitionId(coalitionId);
@@ -110,4 +124,4 @@ const getUserPronouns = async (userId) => {
   return user.data() && user.data().pronouns;
 }
 
-export { create, get, set, getByCoalitionId, updateUserEmail, getUserName, getCurrentUserId, getUserPronouns, getUserNameSub, getLoggedInUser };
+export { create, get, set, getByCoalitionId, updateUserEmail, getUserName, getCurrentUserId, getUserPronouns, getUserNameSub, getLoggedInUser, getByAuthIdSub };

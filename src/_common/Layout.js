@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet } from "react-router-dom";
 import AuthWrapper from '../auth/AuthWrapper';
 import FirebaseApp from '../firebase/FirebaseApp';
+import UserContextProvider from '../user/UserContextProvider';
 import HeaderLogo from './HeaderLogo';
 import MainMenu from './MainMenu';
 
@@ -13,10 +14,12 @@ const Layout = () => {
       </header>
       <FirebaseApp>
         <AuthWrapper>
-          <div>
-            <MainMenu />
-            <Outlet />
-          </div>
+          <UserContextProvider>
+            <div>
+              <MainMenu />
+              <Outlet />
+            </div>
+          </UserContextProvider>
         </AuthWrapper>
       </FirebaseApp>
     </div>

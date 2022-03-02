@@ -1,4 +1,4 @@
-import { addDoc, deleteDoc, getDocs, query, where } from "firebase/firestore";
+import { addDoc, deleteDoc, getDocs, onSnapshot, query, where } from "firebase/firestore";
 import { getCurrentUserId } from "../user/api";
 import api from "./api";
 const { getDocRef, getCollection } = api("memberships");
@@ -60,6 +60,18 @@ const remove = async (coalitionId) => {
     throw new Error("Can not delete last member.");
   }
 }
+const getUserIsMemberSub = async (userId, coalitionId, callback) => {
+  const q2 = query(getCollection(), where("memberId", "==", userId), where("coalitionId", "==", coalitionId));
+  const unsub = onSnapshot(q2, snap => {
+    if (snap && snap.docs && snap.docs.length > 0) {
+      callback(true);
+    }
+    else {
+      callback(false);
+    }
+  })
+  return unsub;
+}
 
 const getUserIsMember = async (coalitionId) => {
   const currentUserId = await getCurrentUserId();
@@ -71,4 +83,4 @@ const getUserIsMember = async (coalitionId) => {
   return false;
 }
 
-export { add, getCoalitionIdsForCurrentUser, remove, getAllByCoalitionId, getMemberCount, getByCoalitionId, getIsOnlyUser, getUserIsMember };
+export { add, getCoalitionIdsForCurrentUser, remove, getAllByCoalitionId, getMemberCount, getByCoalitionId, getIsOnlyUser, getUserIsMember, getUserIsMemberSub };
