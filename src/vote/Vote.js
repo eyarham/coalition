@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { checkVotes } from '../petition/api';
-import { getByPetitionIdForUser, submitVote } from './api';
+import { getByPetitionIdForUserSub, submitVote } from './api';
 
 const Vote = ({ petitionId }) => {
   const [selectedVote, setSelectedVote] = useState();
+  useEffect(() => {
+    getByPetitionIdForUserSub(petitionId, v => {
+      if (v) {
+        setSelectedVote(v.data());
+      }
+    })
+  }, [petitionId])
+
   const onVoteYes = async e => {
     e.preventDefault();
     await submitVote(petitionId, "yes");
@@ -14,13 +22,6 @@ const Vote = ({ petitionId }) => {
     await submitVote(petitionId, "no");
     await checkVotes(petitionId);
   }
-  useEffect(() => {
-    const effect = async () => {
-      const existingVote = await getByPetitionIdForUser(petitionId);
-      if (existingVote) setSelectedVote(existingVote.data());
-    }
-    effect();
-  }, [petitionId])
   return (
     <div>
       <input type="button" value="yes" onClick={onVoteYes}></input>

@@ -1,15 +1,17 @@
-import { addDoc, getDocs, query, where } from "firebase/firestore";
+import { addDoc, getDocs, onSnapshot, query, where } from "firebase/firestore";
 import api from "../_common/api";
 
-const { getCurrentUser, getCollection } = api("votes");
+const { getCurrentUser, getCollection, set } = api("votes");
 
 const submitVote = async (petitionId, selection) => {
-  //check for existing vote
-
   const existingVote = await getByPetitionIdForUser(petitionId);
   if (existingVote) {
-    //update existing vote
-
+    const voteToUpdate = {
+      petitionId,
+      userId: getCurrentUser().uid,
+      selection
+    }
+    set(existingVote.id, voteToUpdate)
   }
   else {
     const newVote = {
@@ -26,6 +28,13 @@ const getByPetitionIdForUser = async (petitionId) => {
   const membershipQuerySnapshot = await getDocs(q);
   return membershipQuerySnapshot.docs[0];
 }
+const getByPetitionIdForUserSub = (petitionId, callback) => {
+  const q = query(getCollection(), where("petitionId", "==", petitionId), where("userId", "==", getCurrentUser().uid));
+  const unsub = onSnapshot(q, snap => {
+    callback(snap.docs[0]);
+  })
+  return unsub;
+}
 
 const getByPetitionId = async (petitionId) => {
   const q = query(getCollection(), where("petitionId", "==", petitionId));
@@ -33,5 +42,16 @@ const getByPetitionId = async (petitionId) => {
   return membershipQuerySnapshot.docs;
 }
 
-export { submitVote, getByPetitionId, getByPetitionIdForUser };
+const getByPetitionIdSub = async (petitionId, callback) => {
+
+  const q = query(getCollection(), where("petitionId", "==", petitionId));
+  return onSnapshot(q, snap => {
+    callback(snap.docs);
+  })
+
+}
+
+
+
+export { submitVote, getByPetitionId, getByPetitionIdForUser, getByPetitionIdForUserSub,getByPetitionIdSub };
 
