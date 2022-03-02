@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { CoalitionContext } from '../coalition/CoalitionContextProvider';
-import { getByCoalitionId } from './api';
+import { getByCoalitionIdSub } from './api';
 import './petition.css';
 import PetitionList from './PetitionList';
 
@@ -9,13 +9,10 @@ const Petitions = () => {
   const { coalition } = coalitionContext;
   const [petitions, setPetitions] = useState()
   useEffect(() => {
-    const getFunc = async () => {
-      const petitionsReturned = await getByCoalitionId(coalition.id);
-      setPetitions(petitionsReturned);
-    }
-    getFunc()
+    return getByCoalitionIdSub(coalition.id, p => {
+      setPetitions(p);
+    });
   }, [coalition.id])
-
   const openPetitions = () => {
     return petitions.filter(p => p.data().status === "new");
   }

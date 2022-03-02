@@ -4,7 +4,7 @@ import { create, updateRule } from "../rules/api";
 import { getByPetitionId } from "../vote/api";
 import api from "../_common/api";
 
-const { getCurrentUser, getById, getCollection, set } = api("petitions");
+const { getCurrentUser, getById, getCollection, set, getByCoalitionIdSub } = api("petitions");
 
 const create2 = async (coalitionId, petitionType, data) => {
   const votesNeeded = await getVotesNeeded(coalitionId);
@@ -68,5 +68,5 @@ const updatePetition = async (petitionId) => {
   await set(petitionId, { ...petition });
 }
 
-export { getByCoalitionId, checkVotes, create2, updatePetition, getOutcome };
+export { getByCoalitionId, checkVotes, create2, updatePetition, getOutcome,getByCoalitionIdSub };
 
