@@ -1,9 +1,9 @@
 import { addDoc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { add as addMembership, getByCoalitionId } from "../members/api";
 import { getCurrentUserId } from "../user/api";
 import api, { getOriginUrl } from "../_common/api";
-import { add as addMembership, getByCoalitionId } from '../_common/membershipApi';
 
-const {  getDocRef, getCollection } = api("invites");
+const { getDocRef, getCollection } = api("invites");
 const sendInvite = (inviteEmail) => {
 
 }
@@ -42,7 +42,7 @@ const accept = async (inviteId) => {
   const { coalitionId } = invite.data();
   const existingMembership = await getByCoalitionId(coalitionId);
   if (existingMembership) {
-//
+    //
   }
   else {
     await addMembership(coalitionId, await getCurrentUserId());

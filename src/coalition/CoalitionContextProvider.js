@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { getIsOnlyUser, getUserIsMemberSub } from "../members/api";
 import { getByCoalitionIdSub } from '../rules/api';
 import { getCurrentUserId } from '../user/api';
 import { UserContext } from '../user/UserContextProvider';
-import { getIsOnlyUser, getUserIsMemberSub } from '../_common/membershipApi';
 import { getByIdForUser } from './api';
 
 const CoalitionContext = createContext();

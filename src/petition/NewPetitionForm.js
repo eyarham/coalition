@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import PetitionField from './PetitionField';
 import petitionTypes from './petitionTypes';
 
@@ -12,10 +12,14 @@ const NewPetitionForm = ({ petitionType, setPetitionDataParent }) => {
       setSelectedPetitionType(result[0]);
     }
   }, [petitionType])
-  const onChangeFieldValue = e => {
-    const newJsonValue = `{"${e.target.name}": "${e.target.value}"}`
-    const json = JSON.parse(newJsonValue);
-    const newValue = { ...formValue, ...json };
+  const updateFormValue = (newFieldValue) => {
+    var newValue = { ...formValue, ...newFieldValue };
+    if (petitionType === "2") {
+      if (!newValue.type) {
+        //allow newvalue to overwrite
+        newValue = { type: "text", ...newValue };
+      }
+    }
     setFormValue(newValue);
     setPetitionDataParent(newValue);
   }
@@ -23,7 +27,7 @@ const NewPetitionForm = ({ petitionType, setPetitionDataParent }) => {
   return (
     <div>
       {selectedPetitionType.fields && selectedPetitionType.fields.map((f, i) =>
-        <PetitionField key={i} field={f} onChangeFieldValue={onChangeFieldValue} />
+        <PetitionField key={i} field={f} updateFormValue={updateFormValue} />
       )}
     </div>
   )

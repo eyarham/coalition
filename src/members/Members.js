@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { CoalitionContext } from '../coalition/CoalitionContextProvider';
+import UserName from '../user/UserName';
 import { getByCoalitionId } from './api';
-import "./user.css";
-import UserName from './UserName';
 
 const Members = () => {
   const coalitionContext = useContext(CoalitionContext);

@@ -1,6 +1,6 @@
 import { addDoc, deleteDoc, getDocs, onSnapshot, query, where } from "firebase/firestore";
 import { getCurrentUserId } from "../user/api";
-import api from "./api";
+import api from "../_common/api";
 const { getDocRef, getCollection } = api("memberships");
 const add = async (coalitionId, memberId) => {
 
@@ -33,6 +33,12 @@ const getAllByCoalitionIdInternal = async (coalitionId) => {
   const membershipQuerySnapshot = await getDocs(q2);
   return membershipQuerySnapshot.docs;
 }
+const getAllByCoalitionIdInternalSub = async (coalitionId, callback) => {
+  const q2 = query(getCollection(), where("coalitionId", "==", coalitionId));
+  return onSnapshot(q2, snapshot => {
+    callback(snapshot.docs);
+  })
+}
 const getAllByCoalitionId = async (coalitionId) => {
   return await getAllByCoalitionIdInternal(coalitionId);
 }
@@ -40,6 +46,11 @@ const getAllByCoalitionId = async (coalitionId) => {
 const getMemberCount = async (coalitionId) => {
   const allMembers = await getAllByCoalitionId(coalitionId);
   return allMembers.length;
+}
+const getMemberCountSub = async (coalitionId, callback) => {
+  return getAllByCoalitionIdInternalSub(coalitionId, allMembers => {
+    callback(allMembers.length);
+  })
 }
 
 const getIsOnlyUser = async (coalitionId) => {
@@ -83,4 +94,4 @@ const getUserIsMember = async (coalitionId) => {
   return false;
 }
 
-export { add, getCoalitionIdsForCurrentUser, remove, getAllByCoalitionId, getMemberCount, getByCoalitionId, getIsOnlyUser, getUserIsMember, getUserIsMemberSub };
+export { add, getCoalitionIdsForCurrentUser, remove, getAllByCoalitionId, getMemberCount, getMemberCountSub, getByCoalitionId, getIsOnlyUser, getUserIsMember, getUserIsMemberSub };

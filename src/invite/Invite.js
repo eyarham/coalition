@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { getByInviteId, getCoalitionRedirect } from '../coalition/api';
-import { getCoalitionIdsForCurrentUser } from '../_common/membershipApi';
+import { getCoalitionIdsForCurrentUser } from "../members/api";
 import { accept } from './api';
 
 const Invite = () => {

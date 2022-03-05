@@ -1,9 +1,9 @@
 import { addDoc, getDoc, getDocs, query, setDoc, where } from "firebase/firestore";
 import { get as getInvite } from "../invite/api";
+import { add as addMember, getByCoalitionId, getCoalitionIdsForCurrentUser } from "../members/api";
 import { getByCoalitionId as getRulesByCoalitionId, initializeRules } from '../rules/api';
 import { getCurrentUserId } from "../user/api";
 import api, { getOriginUrl } from "../_common/api";
-import { add as addMember, getByCoalitionId, getCoalitionIdsForCurrentUser, getMemberCount } from "../_common/membershipApi";
 
 const { getDocRef, getCollection, deleteDocument } = api("coalitions");
 
@@ -88,20 +88,6 @@ const getCoalitionRedirect = (coalitionId) => {
   const link = coalitionUrl + coalitionId;
   return link;
 }
-const votesNeededRule = x => {
-  if (x < 4) {
-    return x
-  }
-  else {
-    return x / 2;
-  }
-}
-const getVotesNeeded = async (coalitionId) => {
-  //const coalition = await getById(coalitionId);
-  const memberCount = await getMemberCount(coalitionId);
-  const votesNeeded = votesNeededRule(memberCount);
-  return votesNeeded;
-}
 
 const getByInviteId = async (inviteId) => {
 
@@ -149,4 +135,5 @@ const joinPublic = async (coalition) => {
   }
 }
 
-export { write, get, getAll, getByIdForUser, setCoalition, getCoalitionLink, getCoalitionRedirect, getVotesNeeded, deleteDocument, getByInviteId, updateCharter, getPublic, joinPublic };
+export { write, get, getAll, getByIdForUser, setCoalition, getCoalitionLink, getCoalitionRedirect, deleteDocument, getByInviteId, updateCharter, getPublic, joinPublic };
+

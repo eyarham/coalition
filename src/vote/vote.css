@@ -1,0 +1,8 @@
+.vote-box input {
+  color: black;
+}
+
+.vote-box input:disabled {
+  color: rgb(184, 184, 184);
+  background-color: rgb(221, 221, 255);
+}

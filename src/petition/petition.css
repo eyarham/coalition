@@ -1,3 +1,12 @@
-.petition-block{
+.petition-block {
   border: black solid 1px;
+}
+.status-panel {
+  /* height: 40px; */
+  margin: 5px;
+}
+.status-panel span {
+  border: 1px black solid;
+  padding: 3px;
+  height: 40px;
 }

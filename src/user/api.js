@@ -1,8 +1,8 @@
 import { getAuth, signInWithEmailAndPassword, updateEmail } from "firebase/auth";
 import { addDoc, getDoc, getDocs, onSnapshot, query, where } from "firebase/firestore";
+import { getAllByCoalitionId } from "../members/api";
 import { checkRule, checkRuleSub } from "../rules/api";
 import api from "../_common/api";
-import { getAllByCoalitionId } from "../_common/membershipApi";
 
 const { getCurrentUser, getCollection, set, getById, getByIdSub } = api("users");
 
@@ -125,3 +125,4 @@ const getUserPronouns = async (userId) => {
 }
 
 export { create, get, set, getByCoalitionId, updateUserEmail, getUserName, getCurrentUserId, getUserPronouns, getUserNameSub, getLoggedInUser, getByAuthIdSub };
+

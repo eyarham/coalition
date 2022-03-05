@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { create } from './api';
+import { createWithType } from './api';
 
 const NewRule = ({ coalitionId }) => {
   const [ruleName, setRuleName] = useState();
@@ -7,7 +7,7 @@ const NewRule = ({ coalitionId }) => {
   const [message, setMessage] = useState();
   const onFormSubmit = async (e) => {
     e.preventDefault();
-    await create(coalitionId, ruleName, ruleValue);
+    await createWithType(coalitionId, ruleName, "text", ruleValue);
     setMessage("complete");
   }
   const nameChange = e => {

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { CoalitionContext } from '../coalition/CoalitionContextProvider';
-import { getUserIsMember, remove } from '../_common/membershipApi';
+import { getUserIsMember, remove } from "../members/api";
 import Join from './Join';
 
 

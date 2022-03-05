@@ -17,7 +17,8 @@ const NewPetition = () => {
     setMessage("Created Successfully");
   }
   const onPetitionTypeChange = e => {
-    setPetitionType(e.target.value);
+    const newPetitionType = e.target.value;
+    setPetitionType(newPetitionType);
   }
   const setPetitionDataParent = (data) => {
     setPetitionData(data);

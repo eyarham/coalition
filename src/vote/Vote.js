@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { checkVotes } from '../petition/api';
+import { processPetition } from '../petition/api';
 import { getByPetitionIdForUserSub, submitVote } from './api';
+import "./vote.css";
 
 const Vote = ({ petitionId }) => {
   const [selectedVote, setSelectedVote] = useState();
   useEffect(() => {
     getByPetitionIdForUserSub(petitionId, v => {
       if (v) {
-        setSelectedVote(v.data());
+        const { selection } = v.data();
+        setSelectedVote(selection);
       }
     })
   }, [petitionId])
@@ -15,18 +17,17 @@ const Vote = ({ petitionId }) => {
   const onVoteYes = async e => {
     e.preventDefault();
     await submitVote(petitionId, "yes");
-    await checkVotes(petitionId);
+    await processPetition(petitionId);
   }
   const onVoteNo = async e => {
     e.preventDefault();
     await submitVote(petitionId, "no");
-    await checkVotes(petitionId);
+    await processPetition(petitionId);
   }
   return (
-    <div>
-      <input type="button" value="yes" onClick={onVoteYes}></input>
-      <input type="button" value="no" onClick={onVoteNo}></input>
-      Selection: {selectedVote && selectedVote.selection}
+    <div className='vote-box'>
+      <input type="button" value="yes" onClick={onVoteYes} disabled={selectedVote === "yes"}></input>
+      <input type="button" value="no" onClick={onVoteNo} disabled={selectedVote === "no"}></input>
     </div>
   )
 }

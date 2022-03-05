@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Vote from '../vote/Vote';
+import { processPetition } from './api';
 import petitionTypes from './petitionTypes';
 import Status from './Status';
 
@@ -13,6 +14,10 @@ const Petition = ({ petition, showVote }) => {
     }
   }, [petition])
   const data = petition.data();
+  const onProcessClick = async e => {
+    e.preventDefault();
+    await processPetition(petition.id);
+  }
   return (<div className='petition-block'>
     Status: {data.status}
     {(<div>
@@ -23,6 +28,7 @@ const Petition = ({ petition, showVote }) => {
     </div>)}
     {showVote && <Vote petitionId={petition.id} ></Vote>}
     <Status petitionId={petition.id} />
+    <input type="button" value="process" onClick={onProcessClick} />
   </div>)
 
 }
