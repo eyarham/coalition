@@ -1,7 +1,7 @@
 import { addDoc, deleteDoc, getDocs, onSnapshot, query, where } from "firebase/firestore";
 import { getCurrentUserId } from "../user/api";
 import api from "../_common/api";
-const { getDocRef, getCollection } = api("memberships");
+const { getDocRef, getCollection, getByCoalitionIdSub } = api("memberships");
 const add = async (coalitionId, memberId) => {
 
   var newMembership = {
@@ -94,4 +94,5 @@ const getUserIsMember = async (coalitionId) => {
   return false;
 }
 
-export { add, getCoalitionIdsForCurrentUser, remove, getAllByCoalitionId, getMemberCount, getMemberCountSub, getByCoalitionId, getIsOnlyUser, getUserIsMember, getUserIsMemberSub };
+export { add, getCoalitionIdsForCurrentUser, remove, getAllByCoalitionId, getMemberCount, getMemberCountSub, getByCoalitionId, getByCoalitionIdSub, getIsOnlyUser, getUserIsMember, getUserIsMemberSub };
+
