@@ -5,6 +5,7 @@ import petitionTypes from './petitionTypes';
 const NewPetitionForm = ({ petitionType, setPetitionDataParent }) => {
   const [selectedPetitionType, setSelectedPetitionType] = useState();
   const [formValue, setFormValue] = useState();
+  const [fieldType, setFieldType] = useState();
 
   useEffect(() => {
     const result = petitionTypes.filter(t => t.value === parseInt(petitionType))
@@ -21,13 +22,14 @@ const NewPetitionForm = ({ petitionType, setPetitionDataParent }) => {
       }
     }
     setFormValue(newValue);
+    setFieldType(newValue.type);
     setPetitionDataParent(newValue);
   }
   if (!selectedPetitionType) return <div></div>;
   return (
     <div>
       {selectedPetitionType.fields && selectedPetitionType.fields.map((f, i) =>
-        <PetitionField key={i} field={f} updateFormValue={updateFormValue} />
+        <PetitionField key={i} field={f} updateFormValue={updateFormValue} fieldType={fieldType} />
       )}
     </div>
   )
