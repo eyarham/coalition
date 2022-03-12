@@ -39,7 +39,9 @@ const Rules = () => {
               <td className='rule-name-col'> {r.data().name}</td>
               <td className='rule-name-col'> {r.data().type}</td>
               <RuleEditCell r={r} />
+              {isOnlyUser && 
               <td><input type="button" value="delete" onClick={() => onDeleteClick(r.id)}></input></td>
+              }
             </tr>)}
           {isOnlyUser && <NewRuleRow />}
         </tbody>
