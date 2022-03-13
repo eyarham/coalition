@@ -56,7 +56,6 @@ const NewRuleRow = () => {
       {type === "text" && <input placeholder='value' onChange={onValueChange}></input>}
       {type === "boolean" && <input type="checkbox" onChange={onValueChangeBoolean}></input>}
       {type === "number" && <input type="number" placeholder='value' onChange={onValueChangeNumber}></input>}
-      {value.toString()}
     </td>
 
     <td className='new-rule-add'><input type="submit" onClick={onRuleAddClick} value="Add"></input></td>
