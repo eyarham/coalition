@@ -4,6 +4,7 @@ import Members from '../members/Members';
 import Messages from '../message/Messages';
 import NewPetition from '../petition/NewPetition';
 import Petitions from '../petition/Petitions';
+import Roles from '../roles/Roles';
 import Rules from '../rules/Rules';
 import UserMode from '../user/UserMode';
 import ExpandBox from '../_common/ExpandBox';
@@ -25,6 +26,7 @@ const CoalitionWithContext = ({ coalitionId }) => {
         <ExpandBox headerText="Members"><Members /></ExpandBox>
         <ExpandBox headerText="Charter"><Charter /></ExpandBox>
         <ExpandBox headerText="Messages"><Messages /></ExpandBox>
+        <ExpandBox headerText="Roles"><Roles /></ExpandBox>
         <ExpandBox headerText="Rules"><Rules /></ExpandBox>
         <ExpandBox headerText="Invite"><InviteLink /></ExpandBox>
         <ExpandBox headerText="New Petition"><NewPetition /></ExpandBox>

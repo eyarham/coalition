@@ -124,5 +124,5 @@ const getUserPronouns = async (userId) => {
   return user.data() && user.data().pronouns;
 }
 
-export { create, get, set, getByCoalitionId, updateUserEmail, getUserName, getCurrentUserId, getUserPronouns, getUserNameSub, getLoggedInUser, getByAuthIdSub };
+export { create, get, set, getByCoalitionId, updateUserEmail, getUserName, getCurrentUserId, getUserPronouns, getUserNameSub, getLoggedInUser, getByAuthIdSub, getById };
 

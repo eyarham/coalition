@@ -1,5 +1,5 @@
 import { addDoc, deleteDoc, getDocs, onSnapshot, query, where } from "firebase/firestore";
-import { getCurrentUserId } from "../user/api";
+import { getById, getCurrentUserId } from "../user/api";
 import api from "../_common/api";
 const { getDocRef, getCollection, getByCoalitionIdSub } = api("memberships");
 const add = async (coalitionId, memberId) => {
@@ -94,5 +94,19 @@ const getUserIsMember = async (coalitionId) => {
   return false;
 }
 
-export { add, getCoalitionIdsForCurrentUser, remove, getAllByCoalitionId, getMemberCount, getMemberCountSub, getByCoalitionId, getByCoalitionIdSub, getIsOnlyUser, getUserIsMember, getUserIsMemberSub };
+const getIdNamePairSub = async (coalitionId, callback) => {
+  return getByCoalitionIdSub(coalitionId, async members =>  {
+    var idNamePairs = [];
+   const memberFunc =  members.map(async m => {
+      const { memberId } = m.data();
+      const user = await getById(memberId);
+      const {displayName} = user.data();      
+      idNamePairs.push({memberId, displayName});
+    })
+    await Promise.all(memberFunc);
+    callback(idNamePairs);
+  });
+}
+
+export { add, getCoalitionIdsForCurrentUser, remove, getAllByCoalitionId, getMemberCount, getMemberCountSub, getByCoalitionId, getByCoalitionIdSub, getIsOnlyUser, getUserIsMember, getUserIsMemberSub, getIdNamePairSub };
 
