@@ -23,7 +23,8 @@ const auth = getAuth();
   return (
     <div>
       {loggedInUser &&
-        <LoggedIn />
+        // <LoggedIn />
+        <div></div>
       }
       {(!loggedInUser) &&
         <LoginPanel />
