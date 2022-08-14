@@ -1,6 +1,5 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import React, { useState } from 'react';
-import LoggedIn from './LoggedIn';
 import LoginPanel from './LogInPanel';
 
 function AuthPanel() {

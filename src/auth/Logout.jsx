@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 const Logout = () => {
   const auth = getAuth();
 
@@ -14,7 +14,7 @@ const Logout = () => {
       // An error happened.
     });
   }
-  useEffect(signOutEvent, [auth]);
+  useEffect(signOutEvent);
   return (
     <div>Logout</div>
   )

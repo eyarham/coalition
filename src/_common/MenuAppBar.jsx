@@ -12,8 +12,8 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import { Link, useNavigate } from 'react-router-dom';
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { useNavigate } from 'react-router-dom';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 import Divider from '@mui/material/Divider';
 //const pages = ['My Coalitions', 'Search', 'Admin', 'Help'];
@@ -46,6 +46,7 @@ const ResponsiveAppBar = () => {
       // https://firebase.google.com/docs/reference/js/firebase.User
       //const uid = user.uid;
       setLoggedInUser(user);
+      setUserInitial(user.email.charAt(0))
       // ...
     } else {
       // User is signed out
