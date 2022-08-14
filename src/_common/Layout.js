@@ -5,18 +5,20 @@ import FirebaseApp from '../firebase/FirebaseApp';
 import UserContextProvider from '../user/UserContextProvider';
 import HeaderLogo from './HeaderLogo';
 import MainMenu from './MainMenu';
+import CssBaseline from '@mui/material/CssBaseline';
+import MenuAppBar from './MenuAppBar';
 
 const Layout = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <HeaderLogo />
-      </header>
       <FirebaseApp>
+        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+        <CssBaseline />
         <AuthWrapper>
           <UserContextProvider>
             <div>
-              <MainMenu />
+              <MenuAppBar />
+              {/* <MainMenu /> */}
               <Outlet />
             </div>
           </UserContextProvider>

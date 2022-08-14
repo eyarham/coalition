@@ -23,7 +23,6 @@ const AuthWrapper = (props) => {
       <div>
         <AuthPanel />
       </div>
-      <hr />
       <div>
         {loggedInUser && props.children}
       </div>
