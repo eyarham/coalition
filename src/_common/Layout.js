@@ -3,8 +3,6 @@ import { Outlet } from "react-router-dom";
 import AuthWrapper from '../auth/AuthWrapper';
 import FirebaseApp from '../firebase/FirebaseApp';
 import UserContextProvider from '../user/UserContextProvider';
-import HeaderLogo from './HeaderLogo';
-import MainMenu from './MainMenu';
 import CssBaseline from '@mui/material/CssBaseline';
 import MenuAppBar from './MenuAppBar';
 
