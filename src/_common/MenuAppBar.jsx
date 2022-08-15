@@ -80,7 +80,9 @@ const ResponsiveAppBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
+  const onHomeClick = e => {
+    navigate('/');
+  }
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -90,7 +92,8 @@ const ResponsiveAppBar = () => {
             variant="h6"
             noWrap
             component="a"
-            href="/"
+            // href="/"
+            onClick={onHomeClick}
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
